@@ -3,12 +3,15 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import pizzas from "./pizzas.js";
+import authRoute from "./routes/auth.js";
 
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 9000;
 
 app.use(cors({ origin: "http://localhost:3000" }));
+app.use(express.json());
+app.use("/auth", authRoute);
 app.get("/pizzas", pizzas);
 
 mongoose
