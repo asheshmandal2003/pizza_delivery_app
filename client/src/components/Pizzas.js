@@ -33,11 +33,10 @@ function Pizzas() {
         alignItems: "center",
       }}
     >
-      {pizzas.map((pizza) => {
+      {pizzas.map((pizza, idx) => {
         return (
-          <ImageListItem>
+          <ImageListItem key={idx}>
             <Pizza
-              key={pizza.name}
               name={pizza.name}
               price={pizza.price}
               description={pizza.description}
