@@ -138,7 +138,7 @@ function ResponsiveAppBar({ user, setUser }) {
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleClick} sx={{ p: 0 }}>
                     <Avatar sx={{ bgcolor: deepOrange[500] }}>
-                      {user.name.toUpperCase()}
+                      {user.name.charAt(0).toUpperCase()}
                     </Avatar>
                   </IconButton>
                 </Tooltip>
@@ -158,8 +158,12 @@ function ResponsiveAppBar({ user, setUser }) {
               </>
             ) : (
               <Box sx={{ display: "flex" }}>
-                <MenuItem onClick={() => navigate("/auth")}>Sign In</MenuItem>
-                <MenuItem>Sign Up</MenuItem>
+                <MenuItem onClick={() => navigate("/auth/signin")}>
+                  Sign In
+                </MenuItem>
+                <MenuItem onClick={() => navigate("/auth/signup")}>
+                  Sign Up
+                </MenuItem>
               </Box>
             )}
           </Box>
