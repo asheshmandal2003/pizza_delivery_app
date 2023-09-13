@@ -15,7 +15,6 @@ import { useState } from "react";
 import { deepOrange } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 
-const pages = ["Products", "Pricing", "Blog"];
 function ResponsiveAppBar({ user, setUser }) {
   const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -38,6 +37,7 @@ function ResponsiveAppBar({ user, setUser }) {
 
   const logout = () => {
     setUser(null);
+    handleClose();
   };
 
   const navigate = useNavigate();
@@ -50,8 +50,7 @@ function ResponsiveAppBar({ user, setUser }) {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/pizza"
+            onClick={() => navigate("/pizza")}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -60,6 +59,7 @@ function ResponsiveAppBar({ user, setUser }) {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             PIZZA
@@ -94,19 +94,18 @@ function ResponsiveAppBar({ user, setUser }) {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={() => navigate("/pizza")}>Home</MenuItem>
+              <MenuItem onClick={() => navigate("/pizza/create")}>
+                Create Pizza
+              </MenuItem>
+              <MenuItem>Purchase</MenuItem>
             </Menu>
           </Box>
           <LocalPizzaIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="/"
+            onClick={() => navigate("/pizza")}
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -118,18 +117,24 @@ function ResponsiveAppBar({ user, setUser }) {
               textDecoration: "none",
             }}
           >
-            LOGO
+            PIZZA
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button
+              onClick={() => navigate("/pizza")}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Home
+            </Button>
+            <Button
+              onClick={() => navigate("/pizza/create")}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Create Pizza
+            </Button>
+            <Button sx={{ my: 2, color: "white", display: "block" }}>
+              Purchase
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

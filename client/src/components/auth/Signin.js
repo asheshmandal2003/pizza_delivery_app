@@ -6,7 +6,8 @@ import {
   FormControl,
   IconButton,
   InputAdornment,
-  TextField,
+  InputLabel,
+  OutlinedInput,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -15,6 +16,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import ShowAlert from "../partials/ShowAlert";
 
 const validations = yup.object({
   email: yup.string().email("Invalid email!").required("Email is Required!"),
@@ -26,6 +28,9 @@ const validations = yup.object({
 
 function Signin({ setUser }) {
   const [visibility, setVisibility] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [open, setOpen] = useState(false);
+  const [alertType, setAlertType] = useState("error");
 
   const navigate = useNavigate();
 
@@ -42,10 +47,20 @@ function Signin({ setUser }) {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => setUser(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setMsg("You are successfully logged in!");
+        setOpen(true);
+        setAlertType("success");
+        setUser(res.data);
+        navigate("/pizza");
+      })
+      .catch((err) => {
+        setMsg("Invalid Username and Password!");
+        setOpen(true);
+        setAlertType("error");
+        navigate("/auth/signin");
+      });
     onSubmitProps.resetForm();
-    navigate("/pizza");
   };
 
   const formik = useFormik({
@@ -61,88 +76,112 @@ function Signin({ setUser }) {
     setVisibility(!visibility);
   };
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Card
+    <>
+      <Box
         sx={{
-          width: "400px",
-          p: 4,
+          height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          flexDirection: "column",
         }}
       >
-        <Typography variant="h5" color="primary" sx={{ mb: 3 }}>
-          Sign In
-        </Typography>
-        <Box
-          component="form"
-          onSubmit={formik.handleSubmit}
-          sx={{ width: "100%" }}
+        <Card
+          sx={{
+            width: "400px",
+            p: 4,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
         >
-          <FormControl fullWidth sx={{ mb: 3 }}>
-            <TextField
-              id="email"
-              name="email"
-              onChange={formik.handleChange}
-              value={formik.values.email}
-              label="Email"
-              error={formik.errors.email && formik.touched.email}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 3 }}>
-            <TextField
-              id="password"
-              name="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
-              label="Password"
-              error={formik.errors.password && formik.touched.password}
-              helperText={formik.touched.password && formik.errors.password}
-              type={visibility ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton onClick={handleVisibility}>
-                    {visibility ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-          <Box
-            mb={3}
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "end",
-            }}
-          >
-            <Typography color="error" sx={{ cursor: "pointer" }}>
-              Forgot Password?
-            </Typography>
-          </Box>
-          <Button type="submit" fullWidth variant="contained" sx={{ mb: 3 }}>
+          <Typography variant="h5" color="primary" sx={{ mb: 3 }}>
             Sign In
-          </Button>
-        </Box>
-        <Typography sx={{ mb: 3 }}>
-          Don't have an account?
-          <Link to="/auth/signup" style={{ mb: 3, textDecoration: "none" }}>
-            <Typography component="span" color="primary" ml={1}>
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={formik.handleSubmit}
+            sx={{ width: "100%" }}
+          >
+            <FormControl fullWidth sx={{ mb: 3 }}>
+              <InputLabel>Email</InputLabel>
+              <OutlinedInput
+                id="email"
+                name="email"
+                onChange={formik.handleChange}
+                value={formik.values.email}
+                label="Email"
+                error={
+                  Boolean(formik.errors.email) && Boolean(formik.touched.email)
+                }
+              />
+              <Typography color="error" mt={1} variant="caption">
+                {Boolean(formik.touched.email) && formik.errors.email}
+              </Typography>
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 3 }}>
+              <InputLabel>Password</InputLabel>
+              <OutlinedInput
+                id="password"
+                name="password"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                label="Password"
+                error={
+                  Boolean(formik.errors.password) &&
+                  Boolean(formik.touched.password)
+                }
+                type={visibility ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleVisibility}>
+                      {visibility ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+              <Typography color="error" mt={1} variant="caption">
+                {Boolean(formik.touched.password) && formik.errors.password}
+              </Typography>
+            </FormControl>
+            <Box
+              mb={3}
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "end",
+              }}
+            >
+              <Typography sx={{ cursor: "pointer" }}>
+                <Link
+                  to="/forgot-password"
+                  style={{ textDecoration: "none", color: "crimson" }}
+                >
+                  Forgot Password?
+                </Link>
+              </Typography>
+            </Box>
+            <Button type="submit" fullWidth variant="contained" sx={{ mb: 3 }}>
               Sign In
-            </Typography>
-          </Link>
-        </Typography>
-      </Card>
-    </Box>
+            </Button>
+          </Box>
+          <Typography sx={{ mb: 3 }}>
+            Don't have an account?
+            <Link to="/auth/signup" style={{ mb: 3, textDecoration: "none" }}>
+              <Typography component="span" color="primary" ml={1}>
+                Sign In
+              </Typography>
+            </Link>
+          </Typography>
+        </Card>
+      </Box>
+      <ShowAlert
+        open={open}
+        setOpen={setOpen}
+        msg={msg}
+        alertType={alertType}
+      />
+    </>
   );
 }
 

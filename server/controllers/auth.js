@@ -20,7 +20,7 @@ export const signup = async (req, res, next) => {
       res.status(201).json(registeredUser);
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: "Something went wrong :(" });
   }
 };
 
@@ -28,7 +28,7 @@ export const signin = async (req, res, next) => {
   try {
     res.status(200).json(req.user);
   } catch (error) {
-    res.status(403).json({ error: error.message });
+    res.status(401).send({ message: "Invalid Username and Password!" });
   }
 };
 
@@ -44,7 +44,6 @@ export const emailVerification = async (req, res, next) => {
     } else {
       res.status(400).send({ message: "Invalid link" });
     }
-    console.log("Happy Happy Happy");
   } catch (error) {
     res.status(500).json({ message: "Internal server error!" });
   }

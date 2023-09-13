@@ -8,6 +8,8 @@ import session from "express-session";
 import passport from "passport";
 import Auth from "./models/auth.js";
 import userRoute from "./routes/user.js";
+import forgotPassRoute from "./routes/forgotPassword.js";
+import pizzaRoute from "./routes/pizza.js";
 
 const app = express();
 dotenv.config();
@@ -35,6 +37,8 @@ passport.deserializeUser(Auth.deserializeUser());
 
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
+app.use("/forgot-password", forgotPassRoute);
+app.use("/pizza", pizzaRoute);
 app.get("/pizzas", pizzas);
 
 mongoose
