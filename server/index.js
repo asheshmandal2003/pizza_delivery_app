@@ -10,6 +10,8 @@ import Auth from "./models/auth.js";
 import userRoute from "./routes/user.js";
 import forgotPassRoute from "./routes/forgotPassword.js";
 import pizzaRoute from "./routes/pizza.js";
+import dashboardRoute from "./routes/dashboard.js";
+import paymentRoute from "./routes/payment.js";
 
 const app = express();
 dotenv.config();
@@ -39,6 +41,8 @@ app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/forgot-password", forgotPassRoute);
 app.use("/pizza", pizzaRoute);
+app.use("/", dashboardRoute);
+app.use("/pizza", paymentRoute);
 app.get("/pizzas", pizzas);
 
 mongoose

@@ -8,8 +8,50 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 
 function Pizza({ name, price, description, image }) {
+  const checkout = async (amount) => {
+    try {
+      const formdata = new FormData();
+      formdata.append("price", amount);
+      await axios({
+        method: "POST",
+        url: "http://localhost:8000/pizza/checkout",
+        data: formdata,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        console.log(res.data);
+        const options = {
+          key: "rzp_test_yidZEDo9VPhTmk",
+          amount: res.data.amount,
+          currency: "INR",
+          name: "Ashesh Mandal",
+          description: "Test Transaction",
+          image: "https://example.com/your_logo",
+          order_id: res.data.id,
+          callback_url: "http://localhost:8000/pizza/paymentVerification",
+          prefill: {
+            name: "Gaurav Kumar",
+            email: "gaurav.kumar@example.com",
+            contact: "9000090000",
+          },
+          notes: {
+            address: "Razorpay Corporate Office",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+        const pay = new window.Razorpay(options);
+        pay.open();
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Card
       sx={{
@@ -32,14 +74,18 @@ function Pizza({ name, price, description, image }) {
           }}
         />
       </Box>
-      <CardHeader title={name} subheader={`${price}`} />
+      <CardHeader title={name} subheader={`₹${price}`} />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained" color="error">
+        <Button
+          onClick={() => checkout(price)}
+          variant="contained"
+          color="error"
+        >
           Order Now
         </Button>
       </CardActions>

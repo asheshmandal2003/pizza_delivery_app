@@ -157,7 +157,9 @@ function ResponsiveAppBar({ user, setUser }) {
                   }}
                 >
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>Dashboard</MenuItem>
+                  <MenuItem onClick={() => navigate("/pizza/dashboard")}>
+                    Dashboard
+                  </MenuItem>
                   <MenuItem onClick={logout}>Log Out</MenuItem>
                 </Menu>
               </>

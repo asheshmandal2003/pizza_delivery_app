@@ -169,7 +169,7 @@ function Signin({ setUser }) {
             Don't have an account?
             <Link to="/auth/signup" style={{ mb: 3, textDecoration: "none" }}>
               <Typography component="span" color="primary" ml={1}>
-                Sign In
+                Sign Up
               </Typography>
             </Link>
           </Typography>

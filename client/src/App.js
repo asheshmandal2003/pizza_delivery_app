@@ -10,6 +10,7 @@ import Email from "./components/forgotPassword/Email";
 import Otp from "./components/forgotPassword/Otp";
 import ResetPassword from "./components/forgotPassword/ResetPassword";
 import CreatePizza from "./components/createPizza/CreatePizza";
+import Dashboard from "./components/dashboard/Dashboard";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -28,6 +29,7 @@ function App() {
         />
         <Route path="/pizza" element={<Homepage />} />
         <Route path="/pizza/create" element={<CreatePizza />} />
+        <Route path="/pizza/dashboard" element={<Dashboard />} />
       </Routes>
     </div>
   );
