@@ -3,7 +3,7 @@ import { dashboard, updateDashboard } from "../controllers/dashboard.js";
 
 const router = express.Router();
 
-router.get("/dashboard", dashboard);
-router.put("/dashboard", updateDashboard);
+router.get("/:id/dashboard", dashboard);
+router.put("/dashboard/update", updateDashboard);
 
 export default router;

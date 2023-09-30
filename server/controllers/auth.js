@@ -2,14 +2,25 @@ import Auth from "../models/auth.js";
 import { Token } from "../models/token.js";
 import crypto from "crypto";
 import { sendMail } from "../utils/sendMail.js";
+import { Dashboard } from "../models/dashboard.js";
 
 export const signup = async (req, res, next) => {
-  const { name, email, password } = req.body;
-  const newUser = new Auth({ name, email });
+  const { name, email, password, pageType } = req.body;
+  console.log(pageType);
+  const newUser = new Auth({
+    name,
+    email,
+    pageType,
+  });
   try {
     const registeredUser = await Auth.register(newUser, password);
     req.logIn(registeredUser, async (err) => {
       if (err) return err;
+      if (pageType === "admin") {
+        const newDashboard = new Dashboard();
+        newDashboard.author = registeredUser._id;
+        await newDashboard.save();
+      }
       const token = new Token({
         userId: registeredUser._id,
         token: crypto.randomBytes(32).toString("hex"),

@@ -11,6 +11,16 @@ const authSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  pageType: {
+    type: String,
+    enum: ["user", "admin"],
+  },
+  orders: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Order",
+    },
+  ],
 });
 
 authSchema.plugin(passportLocalMongoose, { usernameField: "email" });

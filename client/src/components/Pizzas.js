@@ -3,7 +3,7 @@ import axios from "axios";
 import Pizza from "./Pizza";
 import { ImageList, ImageListItem, useMediaQuery } from "@mui/material";
 
-function Pizzas() {
+function Pizzas({ user }) {
   const [pizzas, setPizzas] = useState([{}]);
   const phone = useMediaQuery("(max-width:900px)");
   useEffect(() => {
@@ -41,6 +41,7 @@ function Pizzas() {
               price={pizza.price}
               description={pizza.description}
               image={pizza.image_url}
+              user={user}
             />
           </ImageListItem>
         );

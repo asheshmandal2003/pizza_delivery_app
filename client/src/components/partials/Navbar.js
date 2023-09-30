@@ -98,7 +98,9 @@ function ResponsiveAppBar({ user, setUser }) {
               <MenuItem onClick={() => navigate("/pizza/create")}>
                 Create Pizza
               </MenuItem>
-              <MenuItem>Purchase</MenuItem>
+              <MenuItem onClick={() => navigate("/pizza/orders")}>
+                {user.pageType === "user" ? "Orders" : "Track Orders"}
+              </MenuItem>
             </Menu>
           </Box>
           <LocalPizzaIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -132,8 +134,11 @@ function ResponsiveAppBar({ user, setUser }) {
             >
               Create Pizza
             </Button>
-            <Button sx={{ my: 2, color: "white", display: "block" }}>
-              Purchase
+            <Button
+              onClick={() => navigate("/pizza/orders")}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              {user.pageType === "user" ? "Orders" : "Track Orders"}
             </Button>
           </Box>
 
@@ -156,10 +161,19 @@ function ResponsiveAppBar({ user, setUser }) {
                     "aria-labelledby": "basic-button",
                   }}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={() => navigate("/pizza/dashboard")}>
-                    Dashboard
-                  </MenuItem>
+                  {user.pageType === "user" && (
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  )}
+                  {user.pageType === "admin" && (
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/pizza/dashboard");
+                        handleClose();
+                      }}
+                    >
+                      Dashboard
+                    </MenuItem>
+                  )}
                   <MenuItem onClick={logout}>Log Out</MenuItem>
                 </Menu>
               </>

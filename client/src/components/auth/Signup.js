@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -33,6 +34,7 @@ const validations = yup.object({
 function Signup({ setUser }) {
   const [visibility, setVisibility] = useState(false);
   const [open, setOpen] = useState(false);
+  const [pageType, setPageType] = useState("user");
 
   const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ function Signup({ setUser }) {
     for (let value in values) {
       formdata.append(value, values[value]);
     }
+    formdata.append("pageType", pageType);
     await axios({
       method: "post",
       url: "http://localhost:8000/auth/signup",
@@ -78,8 +81,18 @@ function Signup({ setUser }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: "column",
         }}
       >
+        {pageType === "user" && (
+          <Alert
+            severity="info"
+            onClick={() => setPageType("admin")}
+            sx={{ width: 440, mb: 3, cursor: "pointer" }}
+          >
+            Register as admin
+          </Alert>
+        )}
         <Card
           sx={{
             width: "400px",

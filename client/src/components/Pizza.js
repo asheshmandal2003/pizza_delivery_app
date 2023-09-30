@@ -9,12 +9,15 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import { useState } from "react";
 
-function Pizza({ name, price, description, image }) {
-  const checkout = async (amount) => {
+function Pizza({ name, price, description, image, user }) {
+  const buy = async (amount) => {
     try {
       const formdata = new FormData();
       formdata.append("price", amount);
+      formdata.append("user", user._id);
+      formdata.append("pizza", name);
       await axios({
         method: "POST",
         url: "http://localhost:8000/pizza/checkout",
@@ -23,7 +26,6 @@ function Pizza({ name, price, description, image }) {
           "Content-Type": "application/json",
         },
       }).then((res) => {
-        console.log(res.data);
         const options = {
           key: "rzp_test_yidZEDo9VPhTmk",
           amount: res.data.amount,
@@ -80,15 +82,13 @@ function Pizza({ name, price, description, image }) {
           {description}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button
-          onClick={() => checkout(price)}
-          variant="contained"
-          color="error"
-        >
-          Order Now
-        </Button>
-      </CardActions>
+      {user.pageType === "user" && (
+        <CardActions>
+          <Button onClick={() => buy(price)} variant="contained" color="error">
+            Order Now
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 }
