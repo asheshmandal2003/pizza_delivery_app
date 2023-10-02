@@ -37,11 +37,11 @@ function Pizzas({ user }) {
         return (
           <ImageListItem key={idx}>
             <Pizza
+              id={pizza._id}
               name={pizza.name}
               price={pizza.price}
               description={pizza.description}
               image={pizza.image_url}
-              user={user}
             />
           </ImageListItem>
         );

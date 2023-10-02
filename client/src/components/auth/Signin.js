@@ -17,6 +17,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import ShowAlert from "../partials/ShowAlert";
+import { useDispatch } from "react-redux";
+import { login } from "../../state/auth.js";
 
 const validations = yup.object({
   email: yup.string().email("Invalid email!").required("Email is Required!"),
@@ -26,11 +28,12 @@ const validations = yup.object({
     .required("Password is Required!"),
 });
 
-function Signin({ setUser }) {
+function Signin() {
   const [visibility, setVisibility] = useState(false);
   const [msg, setMsg] = useState("");
   const [open, setOpen] = useState(false);
   const [alertType, setAlertType] = useState("error");
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -51,7 +54,7 @@ function Signin({ setUser }) {
         setMsg("You are successfully logged in!");
         setOpen(true);
         setAlertType("success");
-        setUser(res.data);
+        dispatch(login(res.data));
         navigate("/pizza");
       })
       .catch((err) => {

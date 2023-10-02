@@ -20,10 +20,12 @@ import ResponsiveAppBar from "../partials/Navbar";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import EditIcon from "@mui/icons-material/Edit";
 import { useFormik } from "formik";
+import { useSelector } from "react-redux";
 
-function Dashboard({ user, setUser }) {
+function Dashboard() {
   const [dashboard, setDashboard] = useState([]);
   const [pageType, setPageType] = useState("view");
+  const user = useSelector((state) => state.user);
 
   const fetchDashboard = async () => {
     await axios({
@@ -71,7 +73,7 @@ function Dashboard({ user, setUser }) {
 
   return (
     <>
-      <ResponsiveAppBar user={user} setUser={setUser} />
+      <ResponsiveAppBar />
       {dashboard.length !== 0 && (
         <Box
           display="flex"

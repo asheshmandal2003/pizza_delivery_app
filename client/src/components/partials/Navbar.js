@@ -14,9 +14,13 @@ import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import { useState } from "react";
 import { deepOrange } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../state/auth.js";
 
-function ResponsiveAppBar({ user, setUser }) {
+function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -35,8 +39,8 @@ function ResponsiveAppBar({ user, setUser }) {
     setAnchorEl(null);
   };
 
-  const logout = () => {
-    setUser(null);
+  const signout = () => {
+    dispatch(logout());
     handleClose();
   };
 
@@ -174,7 +178,7 @@ function ResponsiveAppBar({ user, setUser }) {
                       Dashboard
                     </MenuItem>
                   )}
-                  <MenuItem onClick={logout}>Log Out</MenuItem>
+                  <MenuItem onClick={signout}>Log Out</MenuItem>
                 </Menu>
               </>
             ) : (

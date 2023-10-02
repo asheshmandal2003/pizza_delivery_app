@@ -1,7 +1,5 @@
-import "./App.css";
 import Homepage from "./components/Homepage";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useState } from "react";
 import Signup from "./components/auth/Signup";
 import Signin from "./components/auth/Signin";
 import VerifyEmail from "./components/verification/VerifyEmail";
@@ -11,14 +9,18 @@ import ResetPassword from "./components/forgotPassword/ResetPassword";
 import CreatePizza from "./components/createPizza/CreatePizza";
 import Dashboard from "./components/dashboard/Dashboard";
 import Orders from "./components/orders/Orders.js";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const isAuth = Boolean(useSelector((state) => state.user));
   return (
     <div className="App">
       <Routes>
-        <Route path="/auth/signup" element={<Signup setUser={setUser} />} />
-        <Route path="/auth/signin" element={<Signin setUser={setUser} />} />
+        <Route path="/auth/signup" element={<Signup />} />
+        <Route
+          path="/auth/signin"
+          element={!isAuth ? <Signin /> : <Navigate to="/pizza" />}
+        />
         <Route path="/auth/:id/verify/:token" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<Email />} />
         <Route path="/forgot-password/users/:id" element={<Otp />} />
@@ -29,33 +31,19 @@ function App() {
         <Route path="/" element={<Navigate to="/auth/signin" />} />
         <Route
           path="/pizza"
-          element={
-            user ? (
-              <Homepage user={user} setUser={setUser} />
-            ) : (
-              <Navigate to="/auth/signin" />
-            )
-          }
+          element={isAuth ? <Homepage /> : <Navigate to="/auth/signin" />}
         />
         <Route
           path="/pizza/create"
-          element={user ? <CreatePizza /> : <Navigate to="/auth/signin" />}
+          element={isAuth ? <CreatePizza /> : <Navigate to="/auth/signin" />}
         />
         <Route
           path="/pizza/dashboard"
-          element={
-            user ? (
-              <Dashboard user={user} setUser={setUser} />
-            ) : (
-              <Navigate to="/auth/signin" />
-            )
-          }
+          element={isAuth ? <Dashboard /> : <Navigate to="/auth/signin" />}
         />
         <Route
           path="/pizza/orders"
-          element={
-            user ? <Orders user={user} /> : <Navigate to="/auth/signin" />
-          }
+          element={isAuth ? <Orders /> : <Navigate to="/auth/signin" />}
         />
       </Routes>
     </div>

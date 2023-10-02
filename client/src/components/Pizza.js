@@ -9,18 +9,18 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 
-function Pizza({ name, price, description, image, user }) {
+function Pizza({ id, name, price, description, image }) {
+  const user = useSelector((state) => state.user);
   const buy = async (amount) => {
     try {
       const formdata = new FormData();
       formdata.append("price", amount);
-      formdata.append("user", user._id);
       formdata.append("pizza", name);
       await axios({
         method: "POST",
-        url: "http://localhost:8000/pizza/checkout",
+        url: `http://localhost:8000/pizza/users/${user._id}/checkout`,
         data: formdata,
         headers: {
           "Content-Type": "application/json",
@@ -31,20 +31,20 @@ function Pizza({ name, price, description, image, user }) {
           amount: res.data.amount,
           currency: "INR",
           name: "Ashesh Mandal",
-          description: "Test Transaction",
-          image: "https://example.com/your_logo",
+          description: "Payment for Pizza",
+          image:
+            "https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?t=st=1696236164~exp=1696236764~hmac=3145a5296b1afcac9a73ec76137675f88527afe560203883a24b23da4d09aa67",
           order_id: res.data.id,
-          callback_url: "http://localhost:8000/pizza/paymentVerification",
+          callback_url: `http://localhost:8000/pizza/users/${user._id}/pizzas/${id}/order/${res.data.id}`,
           prefill: {
-            name: "Gaurav Kumar",
-            email: "gaurav.kumar@example.com",
-            contact: "9000090000",
+            name: `${user.name}`,
+            email: `${user.email}`,
           },
           notes: {
             address: "Razorpay Corporate Office",
           },
           theme: {
-            color: "#3399cc",
+            color: "#ff0000",
           },
         };
         const pay = new window.Razorpay(options);

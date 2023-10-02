@@ -3,7 +3,7 @@ import { checkout, paymentVerification } from "../controllers/payment.js";
 
 const router = express.Router();
 
-router.post("/checkout", checkout);
-router.post("/paymentVerification", paymentVerification);
+router.post("/:id/checkout", checkout);
+router.post("/:id/pizzas/:pizzaId/order/:orderId", paymentVerification);
 
 export default router;

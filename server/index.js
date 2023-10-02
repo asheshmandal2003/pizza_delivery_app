@@ -43,7 +43,7 @@ app.use("/users", userRoute);
 app.use("/forgot-password", forgotPassRoute);
 app.use("/pizza", pizzaRoute);
 app.use("/pizza", dashboardRoute);
-app.use("/pizza", paymentRoute);
+app.use("/pizza/users", paymentRoute);
 app.use("/pizza", ordersRoute);
 app.get("/pizzas", pizzas);
 

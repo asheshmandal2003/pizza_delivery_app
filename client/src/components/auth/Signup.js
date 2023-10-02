@@ -31,7 +31,7 @@ const validations = yup.object({
     .required("Password is Required!"),
 });
 
-function Signup({ setUser }) {
+function Signup() {
   const [visibility, setVisibility] = useState(false);
   const [open, setOpen] = useState(false);
   const [pageType, setPageType] = useState("user");
@@ -53,7 +53,6 @@ function Signup({ setUser }) {
       },
     })
       .then((res) => {
-        setUser(res.data);
         setOpen(true);
       })
       .catch((err) => navigate("/auth/signup"));
