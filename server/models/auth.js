@@ -15,10 +15,17 @@ const authSchema = new Schema({
     type: String,
     enum: ["user", "admin"],
   },
+  location: String,
   orders: [
     {
       type: Schema.Types.ObjectId,
       ref: "Order",
+    },
+  ],
+  pizzas: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Pizza",
     },
   ],
 });

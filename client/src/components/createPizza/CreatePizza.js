@@ -8,22 +8,21 @@ function CreatePizza() {
       <ResponsiveAppBar />
       <Box
         sx={{
-          height: "120vh",
+          width: "100%",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          mt: 5,
+          mb: 7,
         }}
       >
         <Box
           sx={{
             width: "50rem",
-            height: "40rem",
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            pl: 4,
-            pr: 4,
+            p: 4,
             border: "1px solid #bdbdbd",
             borderRadius: "10px",
           }}

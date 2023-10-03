@@ -41,7 +41,7 @@ passport.deserializeUser(Auth.deserializeUser());
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/forgot-password", forgotPassRoute);
-app.use("/pizza", pizzaRoute);
+app.use("/pizza/users", pizzaRoute);
 app.use("/pizza", dashboardRoute);
 app.use("/pizza/users", paymentRoute);
 app.use("/pizza", ordersRoute);

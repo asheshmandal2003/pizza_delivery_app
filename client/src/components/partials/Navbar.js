@@ -166,7 +166,13 @@ function ResponsiveAppBar() {
                   }}
                 >
                   {user.pageType === "user" && (
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/pizza/user");
+                      }}
+                    >
+                      Profile
+                    </MenuItem>
                   )}
                   {user.pageType === "admin" && (
                     <MenuItem

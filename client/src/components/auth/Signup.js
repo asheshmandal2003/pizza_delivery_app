@@ -24,6 +24,10 @@ const validations = yup.object({
     .min(3, "Your name must contain minimum 3 characters!")
     .max(15, "Your name must contain 15 characters or less!")
     .required("Name is Required!"),
+  location: yup
+    .string()
+    .max(50, "Your location must contain 50 characters or less!")
+    .required("Location is Required!"),
   email: yup.string().email("Invalid email!").required("Email is Required!"),
   password: yup
     .string()
@@ -52,7 +56,7 @@ function Signup() {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => {
+      .then(() => {
         setOpen(true);
       })
       .catch((err) => navigate("/auth/signup"));
@@ -62,6 +66,7 @@ function Signup() {
   const formik = useFormik({
     initialValues: {
       name: "",
+      location: "",
       email: "",
       password: "",
     },
@@ -81,6 +86,8 @@ function Signup() {
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
+          mt: 5,
+          mb: 7,
         }}
       >
         {pageType === "user" && (
@@ -103,7 +110,7 @@ function Signup() {
           }}
         >
           <Typography variant="h5" color="primary" sx={{ mb: 3 }}>
-            Sign Up
+            {pageType === "user" ? "Sign Up" : "Admin Register"}
           </Typography>
           <Box
             component="form"
@@ -120,6 +127,17 @@ function Signup() {
                 error={formik.errors.name && formik.touched.name}
                 helperText={formik.touched.name && formik.errors.name}
                 autoFocus
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 3 }}>
+              <TextField
+                id="location"
+                name="location"
+                onChange={formik.handleChange}
+                value={formik.values.location}
+                label="Location"
+                error={formik.errors.location && formik.touched.location}
+                helperText={formik.touched.location && formik.errors.location}
               />
             </FormControl>
             <FormControl fullWidth sx={{ mb: 3 }}>

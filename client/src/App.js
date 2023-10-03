@@ -1,5 +1,6 @@
 import Homepage from "./components/Homepage";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Signup from "./components/auth/Signup";
 import Signin from "./components/auth/Signin";
 import VerifyEmail from "./components/verification/VerifyEmail";
@@ -9,7 +10,7 @@ import ResetPassword from "./components/forgotPassword/ResetPassword";
 import CreatePizza from "./components/createPizza/CreatePizza";
 import Dashboard from "./components/dashboard/Dashboard";
 import Orders from "./components/orders/Orders.js";
-import { useSelector } from "react-redux";
+import Profile from "./components/profile/Profile.js";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.user));
@@ -44,6 +45,10 @@ function App() {
         <Route
           path="/pizza/orders"
           element={isAuth ? <Orders /> : <Navigate to="/auth/signin" />}
+        />
+        <Route
+          path="/pizza/user"
+          element={isAuth ? <Profile /> : <Navigate to="/auth/signin" />}
         />
       </Routes>
     </div>

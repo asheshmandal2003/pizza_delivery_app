@@ -10,14 +10,14 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { KEY_ID } from "../credentials.js";
 
-function Pizza({ id, name, price, description, image }) {
+function Pizza({ name, price, description, image }) {
   const user = useSelector((state) => state.user);
-  const buy = async (amount) => {
+  const buy = async (amount, name) => {
     try {
       const formdata = new FormData();
       formdata.append("price", amount);
-      formdata.append("pizza", name);
       await axios({
         method: "POST",
         url: `http://localhost:8000/pizza/users/${user._id}/checkout`,
@@ -27,7 +27,7 @@ function Pizza({ id, name, price, description, image }) {
         },
       }).then((res) => {
         const options = {
-          key: "rzp_test_yidZEDo9VPhTmk",
+          key: KEY_ID,
           amount: res.data.amount,
           currency: "INR",
           name: "Ashesh Mandal",
@@ -35,7 +35,7 @@ function Pizza({ id, name, price, description, image }) {
           image:
             "https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?t=st=1696236164~exp=1696236764~hmac=3145a5296b1afcac9a73ec76137675f88527afe560203883a24b23da4d09aa67",
           order_id: res.data.id,
-          callback_url: `http://localhost:8000/pizza/users/${user._id}/pizzas/${id}/order/${res.data.id}`,
+          callback_url: `http://localhost:8000/pizza/users/${user._id}/pizzas/${name}/order/${res.data.id}`,
           prefill: {
             name: `${user.name}`,
             email: `${user.email}`,
@@ -84,7 +84,11 @@ function Pizza({ id, name, price, description, image }) {
       </CardContent>
       {user.pageType === "user" && (
         <CardActions>
-          <Button onClick={() => buy(price)} variant="contained" color="error">
+          <Button
+            onClick={() => buy(price, name)}
+            variant="contained"
+            color="error"
+          >
             Order Now
           </Button>
         </CardActions>

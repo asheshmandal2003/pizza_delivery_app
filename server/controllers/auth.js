@@ -5,10 +5,10 @@ import { sendMail } from "../utils/sendMail.js";
 import { Dashboard } from "../models/dashboard.js";
 
 export const signup = async (req, res, next) => {
-  const { name, email, password, pageType } = req.body;
-  console.log(pageType);
+  const { name, location, email, password, pageType } = req.body;
   const newUser = new Auth({
     name,
+    location,
     email,
     pageType,
   });

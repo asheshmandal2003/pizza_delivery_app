@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const pizzaSchema = new Schema({
+  name: String,
   pizzaBase: String,
   sauce: String,
   cheese: String,

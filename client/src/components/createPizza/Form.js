@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const veggiesOptions = [
   { title: "Tomatoes" },
@@ -32,8 +34,11 @@ const veggiesOptions = [
 ];
 
 function Form() {
+  const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
+      name: "",
       pizzaBase: "",
       sauce: "",
       cheese: "",
@@ -52,16 +57,17 @@ function Form() {
     }
     await axios({
       method: "post",
-      url: "http://localhost:8000/pizza/create-pizza",
+      url: `http://localhost:8000/pizza/users/${user._id}/create-pizza`,
       data: formdata,
       headers: {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => console.log(res.data))
+      .then(() => navigate("/pizza/user"))
       .catch((err) => console.log(err.response));
     onSubmitProps.resetForm();
   }
+
   return (
     <Box
       component="form"
@@ -82,6 +88,14 @@ function Form() {
       <Typography variant="caption" mb={3}>
         Make Pizza With Your Own Recepie
       </Typography>
+      <FormControl fullWidth sx={{ mb: 3 }}>
+        <TextField
+          name="name"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          label="Pizza Name"
+        />
+      </FormControl>
       <FormControl fullWidth sx={{ mb: 3 }}>
         <InputLabel>Pizza Base</InputLabel>
         <Select
@@ -108,7 +122,7 @@ function Form() {
         >
           <MenuItem value="Tomato Sauce">Tomato Sauce</MenuItem>
           <MenuItem value="Barbecue Sauce">Barbecue Sauce</MenuItem>
-          <MenuItem value="Soy Sauce">Soy Sauce</MenuItem>
+          <MenuItem value="Soya Sauce">Soya Sauce</MenuItem>
           <MenuItem value="Hollandaise Sauce">Hollandaise Sauce</MenuItem>
           <MenuItem value="Pesto Sauce">Pesto Sauce</MenuItem>
         </Select>
