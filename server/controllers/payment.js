@@ -16,7 +16,6 @@ export const checkout = async (req, res) => {
     };
     await instance.orders.create(options, async function (err, order) {
       if (err) return err;
-      console.log(order);
       res.status(201).json(order);
     });
   } catch (error) {
@@ -35,6 +34,7 @@ export const paymentVerification = async (req, res) => {
       order_from: user.name,
       order_email: user.email,
       order_id: req.params.orderId,
+      order_time: Date.now(),
     });
     dashboard[0].pizzaBase -= 1;
     dashboard[0].sauce -= 1;
@@ -55,8 +55,8 @@ export const paymentVerification = async (req, res) => {
         "Current stock has less than 20 ingredients!"
       );
     }
-    user.orders.push(newOrder._id);
-    admin.orders.push(newOrder._id);
+    user.orders.unshift(newOrder._id);
+    admin.orders.unshift(newOrder._id);
     await newOrder.save();
     await user.save();
     await admin.save();

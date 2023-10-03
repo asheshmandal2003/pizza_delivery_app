@@ -6,9 +6,17 @@ const orderSchema = new Schema({
   order_from: String,
   order_email: String,
   order_id: String,
-  order_time: {
-    type: Date,
-    default: Date.now(),
+  order_time: Date,
+  status: {
+    type: String,
+    enum: [
+      "Order not placed",
+      "Order placed",
+      "Order outs for delivery",
+      "Order delivered",
+      "Order cancelled",
+    ],
+    default: "Order not placed",
   },
 });
 
