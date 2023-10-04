@@ -7,7 +7,7 @@ const pizzas = (req, res) => {
           "https://img.freepik.com/free-photo/thinly-sliced-pepperoni-is-popular-pizza-topping-american-style-pizzerias-isolated-white-background-still-life_639032-229.jpg?w=740&t=st=1693737546~exp=1693738146~hmac=620ef31bdd954f13e53f99dab94bbf25249fb6dfcd4b5fb51e92edd507652c43",
         description:
           "Classic pepperoni pizza with tomato sauce, mozzarella cheese, and pepperoni slices.",
-        price: 500,
+        price: 300,
       },
       {
         name: "Margherita Pizza",
@@ -15,7 +15,7 @@ const pizzas = (req, res) => {
           "https://www.acouplecooks.com/wp-content/uploads/2022/10/Margherita-Pizza-093.jpg",
         description:
           "A simple and delicious pizza with tomato sauce, fresh mozzarella, basil, and olive oil.",
-        price: 600,
+        price: 320,
       },
       {
         name: "Vegetarian Pizza",
@@ -23,7 +23,7 @@ const pizzas = (req, res) => {
           "https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg",
         description:
           "A veggie-packed pizza with bell peppers, onions, mushrooms, black olives, and mozzarella cheese.",
-        price: 450,
+        price: 400,
       },
       {
         name: "Supreme Pizza",
@@ -31,7 +31,7 @@ const pizzas = (req, res) => {
           "https://www.southernliving.com/thmb/UuflED14dkNrrm-TFbkz42Z5mRg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/sl_supremepizza_00072-2000-4cab71bd67774233b45f05e4e32fdfde.jpg",
         description:
           "Loaded with toppings including pepperoni, sausage, bell peppers, onions, mushrooms, and black olives.",
-        price: 700,
+        price: 500,
       },
       {
         name: "Hawaiian Pizza",
@@ -39,7 +39,7 @@ const pizzas = (req, res) => {
           "https://www.jessicagavin.com/wp-content/uploads/2020/07/hawaiian-pizza-16-1200.jpg",
         description:
           "A tropical delight with ham, pineapple, and mozzarella cheese.",
-        price: 580,
+        price: 280,
       },
       {
         name: "BBQ Chicken Pizza",
@@ -47,7 +47,7 @@ const pizzas = (req, res) => {
           "https://sallysbakingaddiction.com/wp-content/uploads/2014/03/Homemade-BBQ-Chicken-Pizza.jpg",
         description:
           "Tangy barbecue sauce, grilled chicken, red onions, and cilantro on a pizza.",
-        price: 720,
+        price: 520,
       },
       {
         name: "Mushroom Lovers Pizza",
@@ -55,7 +55,7 @@ const pizzas = (req, res) => {
           "https://www.tablefortwoblog.com/wp-content/uploads/2017/08/triple-mushroom-grilled-pizza-recipe-photos-tablefortwoblog-1.jpg",
         description:
           "For mushroom enthusiasts - loaded with various mushroom varieties and mozzarella cheese.",
-        price: 660,
+        price: 420,
       },
       {
         name: "Meat Lover's Pizza",
@@ -63,7 +63,7 @@ const pizzas = (req, res) => {
           "https://grandbaby-cakes.com/wp-content/uploads/2022/05/Meat-Lovers-Pizza-1.jpeg",
         description:
           "A carnivore's dream with pepperoni, sausage, bacon, and ground beef.",
-        price: 750,
+        price: 500,
       },
       {
         name: "Veggie Delight Pizza",
@@ -71,7 +71,7 @@ const pizzas = (req, res) => {
           "https://product-assets.faasos.io/production/product/image_1646385183543_Corn_Veggie_Delight_Pizza_11_Inch_.jpg?d=500",
         description:
           "A garden-fresh combination of tomatoes, bell peppers, onions, black olives, and more.",
-        price: 500,
+        price: 220,
       },
       {
         name: "Four Cheese Pizza",
@@ -79,7 +79,7 @@ const pizzas = (req, res) => {
           "https://ohsweetbasil.com/wp-content/uploads/four-cheese-margherita-pizza-recipe-12-scaled.jpg",
         description:
           "A cheesy masterpiece with a blend of mozzarella, cheddar, provolone, and parmesan cheeses.",
-        price: 600,
+        price: 290,
       },
       {
         name: "Pesto Veggie Pizza",
@@ -87,7 +87,7 @@ const pizzas = (req, res) => {
           "https://tastesbetterfromscratch.com/wp-content/uploads/2020/08/Veggie-Pizza-2.jpg",
         description:
           "A unique twist with pesto sauce, tomatoes, spinach, artichokes, and feta cheese.",
-        price: 650,
+        price: 300,
       },
       {
         name: "Buffalo Chicken Pizza",
@@ -95,7 +95,7 @@ const pizzas = (req, res) => {
           "https://easychickenrecipes.com/wp-content/uploads/2019/11/buffalo-chicken-pizza-4.jpg",
         description:
           "Spicy buffalo sauce, grilled chicken, red onions, and blue cheese crumbles.",
-        price: 680,
+        price: 320,
       },
       {
         name: "Classic Cheese Pizza",
@@ -111,7 +111,7 @@ const pizzas = (req, res) => {
           "https://www.gortsa.com/cache/large/product/110942/asNA8c9KTethsFbuteCtH3URZXui87SqPSokEMCS.png",
         description:
           "A plant-based delight with vegan cheese, veggies, and a tomato base.",
-        price: 500,
+        price: 200,
       },
       {
         name: "Pineapple Jalapeño Pizza",
@@ -127,7 +127,7 @@ const pizzas = (req, res) => {
           "https://www.nelliebellie.com/wp-content/uploads/garlic-white-pizza-720x1080-1.jpg",
         description:
           "Creamy garlic sauce, mozzarella cheese, and a sprinkle of herbs.",
-        price: 450,
+        price: 250,
       },
       {
         name: "BBQ Bacon Burger Pizza",
@@ -135,7 +135,7 @@ const pizzas = (req, res) => {
           "https://www.readyseteat.com/sites/g/files/qyyrlu501/files/uploadedImages/img_7866_8672.jpg",
         description:
           "Inspired by the classic burger with barbecue sauce, ground beef, bacon, and onions.",
-        price: 700,
+        price: 400,
       },
       {
         name: "Chicken Alfredo Pizza",
@@ -143,7 +143,7 @@ const pizzas = (req, res) => {
           "https://www.simplyrecipes.com/thmb/Rl5tkZSBjruwEa78PnI1P696VgQ=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/Simply-Recipes-Chicken-Alfredo-Pizza-Lead-Shot-2c-923f76bfca36416cba0e0ac1de062782.jpg",
         description:
           "Creamy Alfredo sauce, grilled chicken, mushrooms, and parmesan cheese.",
-        price: 600,
+        price: 300,
       },
       {
         name: "Spinach and Feta Pizza",
@@ -151,7 +151,7 @@ const pizzas = (req, res) => {
           "https://www.kingarthurbaking.com/sites/default/files/styles/featured_image_2x/public/recipe_legacy/3843-3-large.jpg?itok=_5oI7CFt",
         description:
           "A Mediterranean-inspired delight with spinach, feta cheese, olives, and garlic sauce.",
-        price: 450,
+        price: 350,
       },
       {
         name: "Bacon Ranch Pizza",
@@ -159,7 +159,7 @@ const pizzas = (req, res) => {
           "https://www.mybakingaddiction.com/wp-content/uploads/2020/09/Chicken-Bacon-Ranch-Pizza-15-of-30.jpg",
         description:
           "Ranch dressing, bacon, tomatoes, and mozzarella cheese on a pizza.",
-        price: 550,
+        price: 250,
       },
       {
         name: "Sausage and Peppers Pizza",
@@ -167,7 +167,7 @@ const pizzas = (req, res) => {
           "https://www.killingthyme.net/wp-content/uploads/2020/09/sausage-and-roasted-red-pepper-pizza-2.jpg",
         description:
           "Savory Italian sausage, bell peppers, and onions on a pizza crust.",
-        price: 500,
+        price: 400,
       },
       {
         name: "Buffalo Ranch Chicken Pizza",
@@ -175,7 +175,7 @@ const pizzas = (req, res) => {
           "https://images-gmi-pmc.edge-generalmills.com/84d51825-51c9-450c-be7c-860d17160951.jpg",
         description:
           "The perfect combination of buffalo sauce, ranch dressing, grilled chicken, and celery.",
-        price: 700,
+        price: 400,
       },
       {
         name: "Mediterranean Veggie Pizza",
@@ -191,7 +191,7 @@ const pizzas = (req, res) => {
           "https://www.sargento.com/assets/Uploads/Recipe/Image/pizza-v2__FillWzExNzAsNTgzXQ.jpg",
         description:
           "A garlic lover's delight with garlic Parmesan sauce and mozzarella cheese.",
-        price: 520,
+        price: 320,
       },
       {
         name: "Pesto Chicken Pizza",
@@ -199,7 +199,7 @@ const pizzas = (req, res) => {
           "https://www.healthyseasonalrecipes.com/wp-content/uploads/2023/04/chicken-pesto-pizza-3-014.jpg",
         description:
           "Pesto sauce, grilled chicken, sun-dried tomatoes, and mozzarella cheese.",
-        price: 650,
+        price: 350,
       },
       {
         name: "Bacon Spinach Alfredo Pizza",
@@ -207,7 +207,7 @@ const pizzas = (req, res) => {
           "https://assets.kraftfoods.com/recipe_images/opendeploy/120201_640x428.jpg",
         description:
           "Creamy Alfredo sauce, bacon, spinach, and mozzarella cheese.",
-        price: 550,
+        price: 350,
       },
       {
         name: "Tex-Mex Taco Pizza",
@@ -215,7 +215,7 @@ const pizzas = (req, res) => {
           "https://dudethatcookz.com/wp-content/uploads/2019/09/mexican_taco_pizza_9.jpg.webp",
         description:
           "A pizza with taco sauce, seasoned ground beef, cheddar cheese, and taco toppings.",
-        price: 500,
+        price: 300,
       },
       {
         name: "Pulled Pork BBQ Pizza",
@@ -223,7 +223,7 @@ const pizzas = (req, res) => {
           "https://www.thegunnysack.com/wp-content/uploads/2023/05/Pulled-Pork-Pizza-Recipe.jpg",
         description:
           "Tender pulled pork, barbecue sauce, red onions, and mozzarella cheese.",
-        price: 600,
+        price: 400,
       },
     ],
   });
