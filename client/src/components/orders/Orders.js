@@ -98,7 +98,7 @@ function Orders() {
               <Card
                 key={order._id}
                 sx={{
-                  width: tab ? (phone ? "18rem" : "22rem") : "30rem",
+                  width: tab ? (phone ? 280 : "22rem") : "30rem",
                   p: 4,
                 }}
               >
@@ -188,7 +188,7 @@ function Orders() {
           ) : (
             <Alert
               severity="warning"
-              sx={{ width: tab ? (phone ? "18rem" : "22rem") : "30rem" }}
+              sx={{ width: tab ? (phone ? 280 : "22rem") : "30rem" }}
             >
               No orders were found!
             </Alert>

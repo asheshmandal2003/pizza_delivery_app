@@ -9,6 +9,7 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -39,8 +40,9 @@ function Signup() {
   const [visibility, setVisibility] = useState(false);
   const [open, setOpen] = useState(false);
   const [pageType, setPageType] = useState("user");
-
   const navigate = useNavigate();
+  const tab = useMediaQuery("(max-width:1000px)");
+  const phone = useMediaQuery("(max-width:600px)");
 
   const signUp = async (values, onSubmitProps) => {
     const formdata = new FormData();
@@ -94,14 +96,14 @@ function Signup() {
           <Alert
             severity="info"
             onClick={() => setPageType("admin")}
-            sx={{ width: 440, mb: 3, cursor: "pointer" }}
+            sx={{ width: tab ? (phone ? 280 : 350) : 400, mb: 3, cursor: "pointer" }}
           >
             Register as admin
           </Alert>
         )}
         <Card
           sx={{
-            width: "400px",
+            width: tab ? (phone ? 280 : 350) : 400,
             p: 4,
             display: "flex",
             justifyContent: "center",

@@ -5,7 +5,8 @@ import { ImageList, ImageListItem, useMediaQuery } from "@mui/material";
 
 function Pizzas() {
   const [pizzas, setPizzas] = useState([{}]);
-  const phone = useMediaQuery("(max-width:900px)");
+  const tab = useMediaQuery("(max-width:1200px)");
+  const phone = useMediaQuery("(max-width:800px)");
   useEffect(() => {
     const fetchPizzas = async () => {
       try {
@@ -24,7 +25,7 @@ function Pizzas() {
   return (
     <ImageList
       direction="row"
-      cols={phone ? 1 : 3}
+      cols={tab ? (phone ? 1 : 2) : 3}
       sx={{
         p: 7,
         display: `${phone ? "flex" : false}`,

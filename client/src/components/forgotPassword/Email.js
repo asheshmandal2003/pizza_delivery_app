@@ -7,6 +7,7 @@ import {
   InputLabel,
   OutlinedInput,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -14,6 +15,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Email() {
+  const phone = useMediaQuery("(max-width:800px)");
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -43,14 +45,16 @@ function Email() {
   }
   return (
     <Box
-      height="130vh"
+      width="100%"
+      mt={5}
+      mb={7}
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
       <Card
         component="form"
         onSubmit={formik.handleSubmit}
         sx={{
-          width: 400,
+          width: phone ? 300 : 400,
           height: 600,
           p: 4,
           display: "flex",

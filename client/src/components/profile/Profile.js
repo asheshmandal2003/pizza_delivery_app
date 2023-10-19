@@ -5,9 +5,13 @@ import {
   Card,
   Divider,
   IconButton,
+  List,
+  ListItem,
+  ListItemText,
   Stack,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import ResponsiveAppBar from "../partials/Navbar";
 import { useEffect, useState } from "react";
@@ -18,6 +22,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 function Profile() {
   const [author, setAuthor] = useState(null);
   const [pizzas, setPizzas] = useState([]);
+  const phone = useMediaQuery("(max-width:1200px)");
   const user = useSelector((state) => state.user);
   const fetchPizzas = async () => {
     await axios({
@@ -49,81 +54,105 @@ function Profile() {
           width: "100%",
           display: "flex",
           justifyContent: "center",
+          flexWrap: "wrap",
+          mt: 5,
+          mb: 7,
         }}
       >
-        {author !== null && (
-          <Card
+        <Box
+          sx={{
+            width: pizzas.length === 0 ? "100%" : "70%",
+            display: "flex",
+            justifyContent:
+              pizzas.length === 0
+                ? "center"
+                : phone
+                ? "center"
+                : "space-between",
+            flexWrap: "wrap",
+          }}
+        >
+          {author !== null && (
+            <Card
+              sx={{
+                width: phone ? 300 : 350,
+                height: "18rem",
+                p: 4,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Avatar sx={{ bgcolor: "orange", mb: 3, width: 80, height: 80 }}>
+                {author.name[0]}
+              </Avatar>
+              <Box width="100%">
+                <Typography>{author.name}</Typography>
+                <Divider sx={{ mb: 2 }} />
+                <Typography sx={{ alignItems: "center" }}>
+                  {author.email}
+                </Typography>
+                <Divider sx={{ mb: 2 }} />
+                <Typography>{author.location}</Typography>
+                <Divider sx={{ mb: 2 }} />
+              </Box>
+            </Card>
+          )}
+          <Box
+            width={pizzas.length === 0 ? 0 : phone ? 280 : 400}
             sx={{
-              width: "20rem",
-              height: "18rem",
-              mt: 5,
-              mr: 4,
-              p: 4,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "column",
             }}
           >
-            <Avatar sx={{ bgcolor: "orange", mb: 2, width: 80, height: 80 }}>
-              A
-            </Avatar>
-            <Box width="100%">
-              <Typography>{author.name}</Typography>
-              <Divider sx={{ mb: 2 }} />
-              <Typography sx={{ alignItems: "center" }}>
-                {author.email}
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              <Typography>{author.location}</Typography>
-              <Divider sx={{ mb: 2 }} />
-            </Box>
-          </Card>
-        )}
-        <Box mt={5} mb={7}>
-          {pizzas.length !== 0 ? (
-            <>
-              <Typography variant="h5" mb={3}>
-                My Recipes
-              </Typography>
-              {pizzas.map((pizza, idx) => (
-                <Card
-                  sx={{
-                    width: "30rem",
-                    mb: 3,
-                    p: 4,
-                  }}
-                >
-                  <Stack spacing={2}>
-                    <Box display="flex" justifyContent="space-between">
-                      <Typography variant="h6">#Recipe {idx + 1}</Typography>
-                      <Tooltip title="Delete">
-                        <IconButton onClick={() => deletePizza(pizza._id)}>
-                          <DeleteOutlineIcon
-                            sx={{ color: "red", fontSize: 32 }}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                    <Typography>Pizza Name: {pizza.name}</Typography>
-                    <Typography>Pizza Base: {pizza.pizzaBase}</Typography>
-                    <Typography>Sauce: {pizza.sauce}</Typography>
-                    <Typography>Cheese: {pizza.cheese}</Typography>
-                    <Typography sx={{ display: "flex" }}>
-                      Veggies:{" "}
-                      {pizza.veggies.map((veggie) => (
-                        <Typography>{veggie.title}, </Typography>
-                      ))}
-                    </Typography>
-                  </Stack>
-                </Card>
-              ))}
-            </>
-          ) : (
-            <Alert severity="warning" sx={{ width: "30rem" }}>
-              You have not created any pizza till now!
-            </Alert>
-          )}
+            {pizzas.length !== 0 ? (
+              <>
+                <Typography variant="h5" mt={phone ? 5 : 0} mb={3}>
+                  My Recipes
+                </Typography>
+                {pizzas.map((pizza, idx) => (
+                  <Card
+                    key={pizza._id}
+                    sx={{
+                      width: "100%",
+                      mb: 3,
+                      p: 4,
+                    }}
+                  >
+                    <Stack spacing={2}>
+                      <Box display="flex" justifyContent="space-between">
+                        <Typography variant="h6">#Recipe {idx + 1}</Typography>
+                        <Tooltip title="Delete">
+                          <IconButton onClick={() => deletePizza(pizza._id)}>
+                            <DeleteOutlineIcon
+                              sx={{ color: "red", fontSize: 32 }}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                      <Typography>Pizza Name: {pizza.name}</Typography>
+                      <Typography>Pizza Base: {pizza.pizzaBase}</Typography>
+                      <Typography>Sauce: {pizza.sauce}</Typography>
+                      <Typography>Cheese: {pizza.cheese}</Typography>
+                      <List>
+                        <Typography>Veggies:</Typography>
+                        {pizza.veggies.map((veggie) => (
+                          <ListItem key={Math.random()}>
+                            <ListItemText primary={veggie.title} />
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Stack>
+                  </Card>
+                ))}
+              </>
+            ) : (
+              <></>
+            )}
+          </Box>
         </Box>
       </Box>
     </>

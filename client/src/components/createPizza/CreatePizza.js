@@ -1,8 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, Card, useMediaQuery } from "@mui/material";
 import Form from "./Form";
 import ResponsiveAppBar from "../partials/Navbar.js";
 
 function CreatePizza() {
+  const tab = useMediaQuery("(max-width:1200px)");
+  const phone = useMediaQuery("(max-width:600px)");
   return (
     <>
       <ResponsiveAppBar />
@@ -18,7 +20,7 @@ function CreatePizza() {
         <Box
           sx={{
             width: "50rem",
-            display: "flex",
+            display: phone || tab ? "none" : "flex",
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
@@ -38,6 +40,14 @@ function CreatePizza() {
             <Form />
           </Box>
         </Box>
+        <Card
+          sx={{
+            display: !tab ? "none" : false,
+            width: phone ? 350 : 450,
+          }}
+        >
+          <Form />
+        </Card>
       </Box>
     </>
   );

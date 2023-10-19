@@ -19,6 +19,7 @@ import * as yup from "yup";
 import ShowAlert from "../partials/ShowAlert";
 import { useDispatch } from "react-redux";
 import { login } from "../../state/auth.js";
+import { useMediaQuery } from "@mui/material";
 
 const validations = yup.object({
   email: yup.string().email("Invalid email!").required("Email is Required!"),
@@ -34,8 +35,9 @@ function Signin() {
   const [open, setOpen] = useState(false);
   const [alertType, setAlertType] = useState("error");
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+  const tab = useMediaQuery("(max-width:1000px)");
+  const phone = useMediaQuery("(max-width:600px)");
 
   const signUp = async (values, onSubmitProps) => {
     const formdata = new FormData();
@@ -90,7 +92,7 @@ function Signin() {
       >
         <Card
           sx={{
-            width: "400px",
+            width: tab ? (phone ? 280 : 350) : 400,
             p: 4,
             display: "flex",
             justifyContent: "center",

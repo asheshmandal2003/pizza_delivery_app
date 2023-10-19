@@ -70,6 +70,7 @@ function Pizza({ name, price, description, image }) {
           height={197}
           image={image}
           alt={name}
+          loading="lazy"
           sx={{
             transition: "0.3s ease-out",
             "&:hover": { scale: "120%" },

@@ -6,6 +6,7 @@ import {
   Grid,
   OutlinedInput,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -15,6 +16,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function Otp() {
   const params = useParams();
   const navigate = useNavigate();
+  const phone = useMediaQuery("(max-width:800px)");
   const formik = useFormik({
     initialValues: {
       otp1: "",
@@ -66,17 +68,17 @@ function Otp() {
     <Box
       sx={{
         width: "100%",
-        height: "100vh",
+        mt: 5,
+        mb: 7,
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
       }}
     >
       <Card
         component="form"
         onSubmit={formik.handleSubmit}
         sx={{
-          width: 400,
+          width: phone ? 300 : 400,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
