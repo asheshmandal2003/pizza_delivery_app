@@ -52,7 +52,7 @@ function VerifyEmail() {
               Verified!
             </Typography>
             <Typography mb={3} color="#9e9e9e">
-              Yahoo! You have successfully verified the account!
+              Yahoo! You have successfully verified the account 🎉
             </Typography>
 
             <Link to="/auth/signin" style={{ textDecoration: "none" }}>

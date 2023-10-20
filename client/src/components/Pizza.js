@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 
 function Pizza({ name, price, description, image }) {
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const buy = async (amount, name) => {
     try {
       const formdata = new FormData();
@@ -23,6 +24,7 @@ function Pizza({ name, price, description, image }) {
         data: formdata,
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }).then((res) => {
         const options = {

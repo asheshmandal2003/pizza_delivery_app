@@ -11,6 +11,7 @@ import CreatePizza from "./components/createPizza/CreatePizza";
 import Dashboard from "./components/dashboard/Dashboard";
 import Orders from "./components/orders/Orders.js";
 import Profile from "./components/profile/Profile.js";
+import Blank from "./components/verification/Blank";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.user));
@@ -18,6 +19,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/auth/signup" element={<Signup />} />
+        <Route path="/:id" element={<Blank />} />
         <Route
           path="/auth/signin"
           element={!isAuth ? <Signin /> : <Navigate to="/pizza" />}

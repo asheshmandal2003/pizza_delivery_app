@@ -56,9 +56,27 @@ export const emailVerification = async (req, res, next) => {
     if (user && token) {
       res.status(200).json({ message: "Verification Done!" });
     } else {
+      await Auth.deleteOne({ _id: req.params.id });
       res.status(400).send({ message: "Invalid link" });
     }
   } catch (error) {
+    await Auth.deleteOne(user);
     res.status(500).json({ message: "Internal server error!" });
+  }
+};
+
+export const resendEmail = async (req, res, next) => {
+  try {
+    const user = await Auth.findById(req.params.id);
+    const token = new Token({
+      userId: req.params.id,
+      token: crypto.randomBytes(32).toString("hex"),
+    });
+    await token.save();
+    const url = `http://localhost:3000/auth/${req.params.id}/verify/${token.token}`;
+    await sendMail(user.email, "Verify Token", url);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal server error!" });
   }
 };

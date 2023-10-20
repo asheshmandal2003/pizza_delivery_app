@@ -49,7 +49,7 @@ app.use("/pizza", ordersRoute);
 app.get("/pizzas", verifyToken, pizzas);
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/pizza")
+  .connect(process.env.MONGO_URL)
   .then(() =>
     app.listen(PORT, () => {
       console.log(`App is listening on ${PORT}`);

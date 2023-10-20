@@ -36,7 +36,7 @@ function Signin() {
   const [alertType, setAlertType] = useState("error");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const tab = useMediaQuery("(max-width:1000px)");
+  const tab = useMediaQuery("(max-width:1200px)");
   const phone = useMediaQuery("(max-width:600px)");
 
   const signUp = async (values, onSubmitProps) => {

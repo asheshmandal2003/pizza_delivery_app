@@ -1,6 +1,5 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Alert,
   Box,
   Button,
   Card,
@@ -37,14 +36,16 @@ const validations = yup.object({
 });
 
 function Signup() {
+  const [disable, setDisable] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const [open, setOpen] = useState(false);
   const [pageType, setPageType] = useState("user");
   const navigate = useNavigate();
-  const tab = useMediaQuery("(max-width:1000px)");
+  const tab = useMediaQuery("(max-width:1200px)");
   const phone = useMediaQuery("(max-width:600px)");
 
   const signUp = async (values, onSubmitProps) => {
+    setDisable(true);
     const formdata = new FormData();
     for (let value in values) {
       formdata.append(value, values[value]);
@@ -58,10 +59,14 @@ function Signup() {
         "Content-Type": "application/json",
       },
     })
-      .then(() => {
-        setOpen(true);
+      .then((res) => {
+        setDisable(false);
+        navigate(`/${res.data._id}`);
       })
-      .catch((err) => navigate("/auth/signup"));
+      .catch((err) => {
+        setDisable(false);
+        setOpen(true);
+      });
     onSubmitProps.resetForm();
   };
 
@@ -92,15 +97,19 @@ function Signup() {
           mb: 7,
         }}
       >
-        {pageType === "user" && (
+        {/* {pageType === "user" && (
           <Alert
             severity="info"
             onClick={() => setPageType("admin")}
-            sx={{ width: tab ? (phone ? 280 : 350) : 400, mb: 3, cursor: "pointer" }}
+            sx={{
+              width: tab ? (phone ? 280 : 350) : 400,
+              mb: 3,
+              cursor: "pointer",
+            }}
           >
             Register as admin
           </Alert>
-        )}
+        )} */}
         <Card
           sx={{
             width: tab ? (phone ? 280 : 350) : 400,
@@ -172,7 +181,13 @@ function Signup() {
                 }
               />
             </FormControl>
-            <Button type="submit" fullWidth variant="contained" sx={{ mb: 3 }}>
+            <Button
+              type="submit"
+              disabled={disable}
+              fullWidth
+              variant="contained"
+              sx={{ mb: 3 }}
+            >
               Sign Up
             </Button>
           </Box>
@@ -189,9 +204,10 @@ function Signup() {
       <ShowAlert
         open={open}
         setOpen={setOpen}
-        msg="An email has been sent to your email account!"
-        alertType="info"
+        msg="Something went wrong!"
+        alertType="error"
       />
+      ;
     </>
   );
 }

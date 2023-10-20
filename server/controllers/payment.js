@@ -63,7 +63,6 @@ export const paymentVerification = async (req, res) => {
     dashboard[0].save();
     res.status(201).redirect("http://localhost:3000/pizza/orders");
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Internal Server Error!" });
   }
 };
