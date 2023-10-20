@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { KEY_ID } from "../credentials.js";
 
 function Pizza({ name, price, description, image }) {
   const user = useSelector((state) => state.user);
@@ -27,7 +26,7 @@ function Pizza({ name, price, description, image }) {
         },
       }).then((res) => {
         const options = {
-          key: KEY_ID,
+          key: process.env.REACT_APP_KEY_ID,
           amount: res.data.amount,
           currency: "INR",
           name: "Ashesh Mandal",

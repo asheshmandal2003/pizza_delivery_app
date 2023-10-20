@@ -24,10 +24,14 @@ function Profile() {
   const [pizzas, setPizzas] = useState([]);
   const phone = useMediaQuery("(max-width:1200px)");
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const fetchPizzas = async () => {
     await axios({
       method: "GET",
       url: `http://localhost:8000/pizza/users/${user._id}/pizzas`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         setPizzas(res.data.pizzas);
@@ -42,6 +46,9 @@ function Profile() {
     await axios({
       method: "DELETE",
       url: `http://localhost:8000/pizza/users/${user._id}/pizzas/${pizzaId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then(() => fetchPizzas())
       .catch((err) => console.log(err));

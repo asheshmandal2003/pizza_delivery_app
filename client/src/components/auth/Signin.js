@@ -56,7 +56,7 @@ function Signin() {
         setMsg("You are successfully logged in!");
         setOpen(true);
         setAlertType("success");
-        dispatch(login(res.data));
+        dispatch(login({ user: res.data.user, token: res.data.token }));
         navigate("/pizza");
       })
       .catch((err) => {

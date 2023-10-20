@@ -2,19 +2,27 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Pizza from "./Pizza";
 import { ImageList, ImageListItem, useMediaQuery } from "@mui/material";
+import { useSelector } from "react-redux";
 
 function Pizzas() {
   const [pizzas, setPizzas] = useState([{}]);
   const tab = useMediaQuery("(max-width:1200px)");
   const phone = useMediaQuery("(max-width:800px)");
+  const token = useSelector((state) => state.token);
   useEffect(() => {
     const fetchPizzas = async () => {
       try {
-        await axios.get("http://localhost:8000/pizzas").then((response) => {
-          if (response.status === 200) {
-            setPizzas(response.data.pizzas);
-          }
-        });
+        await axios
+          .get("http://localhost:8000/pizzas", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              setPizzas(response.data.pizzas);
+            }
+          });
       } catch (error) {
         console.log(error);
       }

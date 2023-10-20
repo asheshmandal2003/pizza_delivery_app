@@ -3,6 +3,7 @@ import { Token } from "../models/token.js";
 import crypto from "crypto";
 import { sendMail } from "../utils/sendMail.js";
 import { Dashboard } from "../models/dashboard.js";
+import jwt from "jsonwebtoken";
 
 export const signup = async (req, res, next) => {
   const { name, location, email, password, pageType } = req.body;
@@ -37,7 +38,9 @@ export const signup = async (req, res, next) => {
 
 export const signin = async (req, res, next) => {
   try {
-    res.status(200).json(req.user);
+    const user = req.user;
+    const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET);
+    res.status(200).json({ user, token });
   } catch (error) {
     res.status(401).send({ message: "Invalid Username and Password!" });
   }

@@ -35,6 +35,7 @@ const veggiesOptions = [
 
 function Form() {
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -61,6 +62,7 @@ function Form() {
       data: formdata,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then(() => navigate("/pizza/user"))

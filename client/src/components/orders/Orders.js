@@ -26,10 +26,15 @@ function Orders() {
   const [orders, setOrders] = useState([]);
   const [customer, setCustomer] = useState(null);
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const fethOrders = async () => {
     try {
       await axios
-        .get(`http://localhost:8000/pizza/${user._id}/orders`)
+        .get(`http://localhost:8000/pizza/${user._id}/orders`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((res) => {
           setOrders(res.data.orders);
           setCustomer(res.data);
@@ -46,6 +51,9 @@ function Orders() {
     await axios({
       method: "DELETE",
       url: `http://localhost:8000/pizza/${user._id}/orders/${orderId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then(() => {
         fethOrders();
@@ -56,6 +64,9 @@ function Orders() {
     await axios({
       method: "PATCH",
       url: `http://localhost:8000/pizza/orders/${orderId}/place`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then(() => fethOrders())
       .catch((err) => console.log(err));
@@ -64,6 +75,9 @@ function Orders() {
     await axios({
       method: "PATCH",
       url: `http://localhost:8000/pizza/orders/${orderId}/outForDelivery`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then(() => fethOrders())
       .catch((err) => console.log(err));
@@ -72,6 +86,9 @@ function Orders() {
     await axios({
       method: "PATCH",
       url: `http://localhost:8000/pizza/orders/${orderId}/delivered`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then(() => {
         fethOrders();
@@ -82,6 +99,9 @@ function Orders() {
     await axios({
       method: "PATCH",
       url: `http://localhost:8000/pizza/orders/${orderId}/cancel`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then(() => {
         fethOrders();

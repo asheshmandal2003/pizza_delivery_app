@@ -9,11 +9,15 @@ function Dashboard() {
   const [pageType, setPageType] = useState("view");
   const [dashboard, setDashboard] = useState([]);
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
 
   const fetchDashboard = async () => {
     await axios({
       method: "GET",
       url: `http://localhost:8000/pizza/${user._id}/dashboard`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => setDashboard(res.data))
       .catch((err) => console.log(err));
@@ -46,6 +50,7 @@ function Dashboard() {
         data: formdata,
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       setPageType("view");

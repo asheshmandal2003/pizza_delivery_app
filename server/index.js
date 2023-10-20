@@ -13,6 +13,7 @@ import pizzaRoute from "./routes/pizza.js";
 import dashboardRoute from "./routes/dashboard.js";
 import paymentRoute from "./routes/payment.js";
 import ordersRoute from "./routes/orders.js";
+import { verifyToken } from "./middleware/auth.js";
 
 const app = express();
 dotenv.config();
@@ -45,7 +46,7 @@ app.use("/pizza/users", pizzaRoute);
 app.use("/pizza", dashboardRoute);
 app.use("/pizza/users", paymentRoute);
 app.use("/pizza", ordersRoute);
-app.get("/pizzas", pizzas);
+app.get("/pizzas", verifyToken, pizzas);
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/pizza")

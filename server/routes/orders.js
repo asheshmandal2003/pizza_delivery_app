@@ -7,14 +7,15 @@ import {
   outForDelivery,
   placeOrder,
 } from "../controllers/orders.js";
+import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/:id/orders", orders);
-router.delete("/:id/orders/:orderId", deleteOrder);
-router.patch("/orders/:orderId/place", placeOrder);
-router.patch("/orders/:orderId/outForDelivery", outForDelivery);
-router.patch("/orders/:orderId/delivered", delivered);
-router.patch("/orders/:orderId/cancel", cancel);
+router.get("/:id/orders", verifyToken, orders);
+router.delete("/:id/orders/:orderId", verifyToken, deleteOrder);
+router.patch("/orders/:orderId/place", verifyToken, placeOrder);
+router.patch("/orders/:orderId/outForDelivery", verifyToken, outForDelivery);
+router.patch("/orders/:orderId/delivered", verifyToken, delivered);
+router.patch("/orders/:orderId/cancel", verifyToken, cancel);
 
 export default router;

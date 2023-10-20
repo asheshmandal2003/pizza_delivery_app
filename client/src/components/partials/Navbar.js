@@ -152,7 +152,7 @@ function ResponsiveAppBar() {
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleClick} sx={{ p: 0 }}>
                     <Avatar sx={{ bgcolor: deepOrange[500] }}>
-                      {user.name.charAt(0).toUpperCase()}
+                      {user.name[0].toUpperCase()}
                     </Avatar>
                   </IconButton>
                 </Tooltip>
@@ -203,4 +203,5 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
+
 export default ResponsiveAppBar;
