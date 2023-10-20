@@ -1,5 +1,5 @@
-import express from "express";
 import dotenv from "dotenv";
+import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import pizzas from "./pizzas.js";
@@ -16,7 +16,9 @@ import ordersRoute from "./routes/orders.js";
 import { verifyToken } from "./middleware/auth.js";
 
 const app = express();
-dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 const PORT = process.env.PORT || 9000;
 const sessionOptions = {
   secret: process.env.SECRET,
