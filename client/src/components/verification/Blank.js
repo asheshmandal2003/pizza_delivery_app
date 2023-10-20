@@ -8,7 +8,7 @@ function Blank() {
     try {
       await axios({
         method: "POST",
-        url: `http://localhost:8000/auth/resend/${params.id}`,
+        url: `${process.env.REACT_APP_BASE_URL}/auth/resend/${params.id}`,
         headers: {
           "Content-Type": "application/json",
         },

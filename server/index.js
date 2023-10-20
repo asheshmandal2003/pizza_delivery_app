@@ -32,7 +32,7 @@ const sessionOptions = {
   },
 };
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(session(sessionOptions));
 app.use(express.json());
 app.use(passport.initialize());

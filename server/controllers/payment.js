@@ -61,7 +61,7 @@ export const paymentVerification = async (req, res) => {
     await user.save();
     await admin.save();
     dashboard[0].save();
-    res.status(201).redirect("http://localhost:3000/pizza/orders");
+    res.status(201).redirect(`${process.env.FRONTEND_URL}/pizza/orders`);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error!" });
   }

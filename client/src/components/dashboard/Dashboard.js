@@ -14,7 +14,7 @@ function Dashboard() {
   const fetchDashboard = async () => {
     await axios({
       method: "GET",
-      url: `http://localhost:8000/pizza/${user._id}/dashboard`,
+      url: `${process.env.REACT_APP_BASE_URL}/pizza/${user._id}/dashboard`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,7 +46,7 @@ function Dashboard() {
       }
       await axios({
         method: "PUT",
-        url: "http://localhost:8000/pizza/dashboard/update",
+        url: `${process.env.REACT_APP_BASE_URL}/pizza/dashboard/update`,
         data: formdata,
         headers: {
           "Content-Type": "application/json",

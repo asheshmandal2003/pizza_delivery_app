@@ -28,7 +28,7 @@ function Profile() {
   const fetchPizzas = async () => {
     await axios({
       method: "GET",
-      url: `http://localhost:8000/pizza/users/${user._id}/pizzas`,
+      url: `${process.env.REACT_APP_BASE_URL}/pizza/users/${user._id}/pizzas`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -45,7 +45,7 @@ function Profile() {
   const deletePizza = async (pizzaId) => {
     await axios({
       method: "DELETE",
-      url: `http://localhost:8000/pizza/users/${user._id}/pizzas/${pizzaId}`,
+      url: `${process.env.REACT_APP_BASE_URL}/pizza/users/${user._id}/pizzas/${pizzaId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

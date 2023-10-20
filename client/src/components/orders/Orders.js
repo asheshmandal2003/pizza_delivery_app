@@ -30,7 +30,7 @@ function Orders() {
   const fethOrders = async () => {
     try {
       await axios
-        .get(`http://localhost:8000/pizza/${user._id}/orders`, {
+        .get(`${process.env.REACT_APP_BASE_URL}/pizza/${user._id}/orders`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -50,7 +50,7 @@ function Orders() {
   const deleteOrder = async (orderId) => {
     await axios({
       method: "DELETE",
-      url: `http://localhost:8000/pizza/${user._id}/orders/${orderId}`,
+      url: `${process.env.REACT_APP_BASE_URL}/pizza/${user._id}/orders/${orderId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -63,7 +63,7 @@ function Orders() {
   const placeOrder = async (orderId) => {
     await axios({
       method: "PATCH",
-      url: `http://localhost:8000/pizza/orders/${orderId}/place`,
+      url: `${process.env.REACT_APP_BASE_URL}/pizza/orders/${orderId}/place`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -74,7 +74,7 @@ function Orders() {
   const outForDelivery = async (orderId) => {
     await axios({
       method: "PATCH",
-      url: `http://localhost:8000/pizza/orders/${orderId}/outForDelivery`,
+      url: `${process.env.REACT_APP_BASE_URL}/pizza/orders/${orderId}/outForDelivery`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -85,7 +85,7 @@ function Orders() {
   const delivered = async (orderId) => {
     await axios({
       method: "PATCH",
-      url: `http://localhost:8000/pizza/orders/${orderId}/delivered`,
+      url: `${process.env.REACT_APP_BASE_URL}/pizza/orders/${orderId}/delivered`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -98,7 +98,7 @@ function Orders() {
   const cancelOrder = async (orderId) => {
     await axios({
       method: "PATCH",
-      url: `http://localhost:8000/pizza/orders/${orderId}/cancel`,
+      url: `${process.env.REACT_APP_BASE_URL}/pizza/orders/${orderId}/cancel`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

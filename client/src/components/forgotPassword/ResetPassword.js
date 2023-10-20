@@ -48,7 +48,7 @@ function ResetPassword() {
     // }
     await axios({
       method: "post",
-      url: `http://localhost:8000/forgot-password/users/${params.id}/reset-password`,
+      url: `${process.env.REACT_APP_BASE_URL}/forgot-password/users/${params.id}/reset-password`,
       data: formdata,
       headers: {
         "Content-Type": "application/json",

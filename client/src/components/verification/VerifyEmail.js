@@ -12,7 +12,7 @@ function VerifyEmail() {
     const verifyEmailUrl = async () => {
       await axios
         .get(
-          `http://localhost:8000/auth/users/${params.id}/verify/${params.token}`
+          `${process.env.REACT_APP_BASE_URL}/auth/users/${params.id}/verify/${params.token}`
         )
         .then(() => {
           setVerified(true);

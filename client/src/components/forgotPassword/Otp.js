@@ -53,7 +53,7 @@ function Otp() {
     formdata.append("otp", otp);
     await axios({
       method: "post",
-      url: `http://localhost:8000/forgot-password/users/${params.id}`,
+      url: `${process.env.REACT_APP_BASE_URL}/forgot-password/users/${params.id}`,
       data: formdata,
       headers: {
         "Content-Type": "application/json",

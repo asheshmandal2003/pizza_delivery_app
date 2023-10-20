@@ -53,7 +53,7 @@ function Signup() {
     formdata.append("pageType", pageType);
     await axios({
       method: "post",
-      url: "http://localhost:8000/auth/signup",
+      url: `${process.env.REACT_APP_BASE_URL}/auth/signup`,
       data: formdata,
       headers: {
         "Content-Type": "application/json",

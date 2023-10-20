@@ -34,7 +34,7 @@ function Email() {
     formdata.append("email", values.email);
     await axios({
       method: "post",
-      url: "http://localhost:8000/forgot-password",
+      url: `${process.env.REACT_APP_BASE_URL}/forgot-password`,
       data: formdata,
       headers: {
         "Content-Type": "application/json",

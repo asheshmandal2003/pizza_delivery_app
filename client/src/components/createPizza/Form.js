@@ -58,7 +58,7 @@ function Form() {
     }
     await axios({
       method: "post",
-      url: `http://localhost:8000/pizza/users/${user._id}/create-pizza`,
+      url: `${process.env.REACT_APP_BASE_URL}/pizza/users/${user._id}/create-pizza`,
       data: formdata,
       headers: {
         "Content-Type": "application/json",

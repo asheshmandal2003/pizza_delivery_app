@@ -13,7 +13,7 @@ function Pizzas() {
     const fetchPizzas = async () => {
       try {
         await axios
-          .get("http://localhost:8000/pizzas", {
+          .get(`${process.env.REACT_APP_BASE_URL}/pizzas`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

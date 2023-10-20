@@ -20,7 +20,7 @@ function Pizza({ name, price, description, image }) {
       formdata.append("price", amount);
       await axios({
         method: "POST",
-        url: `http://localhost:8000/pizza/users/${user._id}/checkout`,
+        url: `${process.env.REACT_APP_BASE_URL}/pizza/users/${user._id}/checkout`,
         data: formdata,
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ function Pizza({ name, price, description, image }) {
           image:
             "https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?t=st=1696236164~exp=1696236764~hmac=3145a5296b1afcac9a73ec76137675f88527afe560203883a24b23da4d09aa67",
           order_id: res.data.id,
-          callback_url: `http://localhost:8000/pizza/users/${user._id}/pizzas/${name}/order/${res.data.id}`,
+          callback_url: `${process.env.REACT_APP_BASE_URL}/pizza/users/${user._id}/pizzas/${name}/order/${res.data.id}`,
           prefill: {
             name: `${user.name}`,
             email: `${user.email}`,
