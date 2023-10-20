@@ -27,7 +27,7 @@ export const signup = async (req, res, next) => {
         token: crypto.randomBytes(32).toString("hex"),
       });
       await token.save();
-      const url = `http://localhost:3000/auth/${registeredUser._id}/verify/${token.token}`;
+      const url = `${process.env.FRONTEND_URL}/auth/${registeredUser._id}/verify/${token.token}`;
       await sendMail(req.body.email, "Verify Token", url);
       res.status(201).json(registeredUser);
     });
@@ -73,7 +73,7 @@ export const resendEmail = async (req, res, next) => {
       token: crypto.randomBytes(32).toString("hex"),
     });
     await token.save();
-    const url = `http://localhost:3000/auth/${req.params.id}/verify/${token.token}`;
+    const url = `${process.env.FRONTEND_URL}/auth/${req.params.id}/verify/${token.token}`;
     await sendMail(user.email, "Verify Token", url);
   } catch (error) {
     console.log(error);
