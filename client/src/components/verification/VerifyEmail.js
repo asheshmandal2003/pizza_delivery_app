@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Box, Button, Card, Typography } from "@mui/material";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import LinkNotFound from "../Error/LinkNotFound";
 
 function VerifyEmail() {
   const [verified, setVerified] = useState(false);
@@ -61,7 +62,7 @@ function VerifyEmail() {
           </Card>
         </Box>
       ) : (
-        <h1>404 not found!</h1>
+        <LinkNotFound />
       )}
     </>
   );

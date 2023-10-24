@@ -12,9 +12,11 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Orders from "./components/orders/Orders.js";
 import Profile from "./components/profile/Profile.js";
 import Blank from "./components/verification/Blank";
+import NotFound from "./components/Error/NotFound";
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.user));
+
   return (
     <div className="App">
       <Routes>
@@ -52,6 +54,7 @@ function App() {
           path="/pizza/user"
           element={isAuth ? <Profile /> : <Navigate to="/auth/signin" />}
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

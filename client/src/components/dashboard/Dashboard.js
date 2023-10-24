@@ -4,6 +4,7 @@ import ResponsiveAppBar from "../partials/Navbar";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import DashboardForm from "./DashboardForm";
+import DashboardLoading from "../Loading/DashboardLoading";
 
 function Dashboard() {
   const [pageType, setPageType] = useState("view");
@@ -62,7 +63,9 @@ function Dashboard() {
   return (
     <>
       <ResponsiveAppBar />
-      {dashboard.length !== 0 && (
+      {dashboard.length === 0 ? (
+        <DashboardLoading />
+      ) : (
         <DashboardForm
           formik={formik}
           dashboard={dashboard}

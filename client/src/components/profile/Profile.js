@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import ProfileLoading from "../Loading/ProfileLoading";
 
 function Profile() {
   const [author, setAuthor] = useState(null);
@@ -79,7 +80,9 @@ function Profile() {
             flexWrap: "wrap",
           }}
         >
-          {author !== null && (
+          {author === null ? (
+            <ProfileLoading />
+          ) : (
             <Card
               sx={{
                 width: phone ? 300 : 350,

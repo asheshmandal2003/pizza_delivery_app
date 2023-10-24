@@ -3,9 +3,10 @@ import axios from "axios";
 import Pizza from "./Pizza";
 import { ImageList, ImageListItem, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
+import HomeLoading from "./Loading/HomeLoading";
 
 function Pizzas() {
-  const [pizzas, setPizzas] = useState([{}]);
+  const [pizzas, setPizzas] = useState([]);
   const tab = useMediaQuery("(max-width:1200px)");
   const phone = useMediaQuery("(max-width:800px)");
   const token = useSelector((state) => state.token);
@@ -42,19 +43,30 @@ function Pizzas() {
         alignItems: "center",
       }}
     >
-      {pizzas.map((pizza, idx) => {
-        return (
-          <ImageListItem key={idx}>
-            <Pizza
-              id={pizza._id}
-              name={pizza.name}
-              price={pizza.price}
-              description={pizza.description}
-              image={pizza.image_url}
-            />
-          </ImageListItem>
-        );
-      })}
+      {pizzas.length === 0 ? (
+        <>
+          <HomeLoading />
+          <HomeLoading />
+          <HomeLoading />
+          <HomeLoading />
+          <HomeLoading />
+          <HomeLoading />
+        </>
+      ) : (
+        pizzas.map((pizza, idx) => {
+          return (
+            <ImageListItem key={idx}>
+              <Pizza
+                id={pizza._id}
+                name={pizza.name}
+                price={pizza.price}
+                description={pizza.description}
+                image={pizza.image_url}
+              />
+            </ImageListItem>
+          );
+        })
+      )}
     </ImageList>
   );
 }
