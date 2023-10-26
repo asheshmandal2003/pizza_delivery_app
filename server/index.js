@@ -14,13 +14,23 @@ import dashboardRoute from "./routes/dashboard.js";
 import paymentRoute from "./routes/payment.js";
 import ordersRoute from "./routes/orders.js";
 import { verifyToken } from "./middleware/auth.js";
+import MongoStore from "connect-mongo";
 
 const app = express();
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
 const PORT = process.env.PORT || 9000;
+const store = new MongoStore({
+  mongoUrl: process.env.MONGO_URL,
+  secret: process.env.SECRET,
+  touchAfter: 24 * 3600,
+});
+store.on("error", (err) => {
+  console.log("Error->", err);
+});
 const sessionOptions = {
+  store,
   secret: process.env.SECRET,
   resave: true,
   saveUninitialized: true,
