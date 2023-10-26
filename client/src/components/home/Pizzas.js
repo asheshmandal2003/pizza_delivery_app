@@ -3,7 +3,7 @@ import axios from "axios";
 import Pizza from "./Pizza";
 import { ImageList, ImageListItem, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
-import HomeLoading from "./Loading/HomeLoading";
+import HomeLoading from "../Loading/HomeLoading";
 
 function Pizzas() {
   const [pizzas, setPizzas] = useState([]);

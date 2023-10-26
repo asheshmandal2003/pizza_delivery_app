@@ -15,6 +15,7 @@ import paymentRoute from "./routes/payment.js";
 import ordersRoute from "./routes/orders.js";
 import { verifyToken } from "./middleware/auth.js";
 import MongoStore from "connect-mongo";
+import helmet from "helmet";
 
 const app = express();
 if (process.env.NODE_ENV !== "production") {
@@ -50,6 +51,7 @@ app.use(passport.session());
 passport.use(Auth.createStrategy());
 passport.serializeUser(Auth.serializeUser());
 passport.deserializeUser(Auth.deserializeUser());
+app.use(helmet());
 
 app.use("/auth", authRoute);
 app.use("/users", userRoute);

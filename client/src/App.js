@@ -1,4 +1,4 @@
-import Homepage from "./components/Homepage";
+import Homepage from "./components/home/Homepage";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Signup from "./components/auth/Signup";

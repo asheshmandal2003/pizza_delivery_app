@@ -16,11 +16,13 @@ import { deepOrange } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../state/auth.js";
+import axios from "axios";
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.token);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -39,9 +41,9 @@ function ResponsiveAppBar() {
     setAnchorEl(null);
   };
 
-  const signout = () => {
-    dispatch(logout());
-    handleClose();
+  const signout = async () => {
+      dispatch(logout());
+      handleClose();
   };
 
   const navigate = useNavigate();
