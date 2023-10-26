@@ -95,12 +95,12 @@ The backend API will be accessible at [http://localhost:8000](http://localhost:8
 
 The project structure is organized as follows:
 
-- `frontend/`: Contains the React.js frontend application.
-- `backend/`: Contains the Node.js backend API.
-- `backend/routes/`: Defines the API routes.
-- `backend/controllers/`: Implements the route controllers.
-- `backend/models/`: Defines the database models (using MongoDB).
-- `frontend/src/`: Contains React components, actions, reducers, and styles.
+- `client/`: Contains the React.js frontend application.
+- `server/`: Contains the Node.js backend API.
+- `server/routes/`: Defines the API routes.
+- `server/controllers/`: Implements the route controllers.
+- `server/models/`: Defines the database models (using MongoDB).
+- `client/src/`: Contains React components, actions, reducers, and styles.
 
 ## License
 
