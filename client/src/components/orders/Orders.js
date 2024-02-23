@@ -22,6 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import OrderLoading from "../Loading/OrderLoading.js";
 
 function Orders() {
+  const [disable, setDisable] = useState(false);
   const tab = useMediaQuery("(max-width:1200px)");
   const phone = useMediaQuery("(max-width:600px)");
   const [orders, setOrders] = useState(null);
@@ -49,6 +50,7 @@ function Orders() {
     fethOrders();
   }, []);
   const deleteOrder = async (orderId) => {
+    setDisable(true);
     await axios({
       method: "DELETE",
       url: `${process.env.REACT_APP_BASE_URL}/pizza/${user._id}/orders/${orderId}`,
@@ -60,8 +62,10 @@ function Orders() {
         fethOrders();
       })
       .catch((err) => console.log(err));
+    setDisable(false);
   };
   const placeOrder = async (orderId) => {
+    setDisable(true);
     await axios({
       method: "PATCH",
       url: `${process.env.REACT_APP_BASE_URL}/pizza/orders/${orderId}/place`,
@@ -71,8 +75,10 @@ function Orders() {
     })
       .then(() => fethOrders())
       .catch((err) => console.log(err));
+    setDisable(false);
   };
   const outForDelivery = async (orderId) => {
+    setDisable(true);
     await axios({
       method: "PATCH",
       url: `${process.env.REACT_APP_BASE_URL}/pizza/orders/${orderId}/outForDelivery`,
@@ -82,8 +88,10 @@ function Orders() {
     })
       .then(() => fethOrders())
       .catch((err) => console.log(err));
+    setDisable(false);
   };
   const delivered = async (orderId) => {
+    setDisable(true);
     await axios({
       method: "PATCH",
       url: `${process.env.REACT_APP_BASE_URL}/pizza/orders/${orderId}/delivered`,
@@ -95,8 +103,10 @@ function Orders() {
         fethOrders();
       })
       .catch((err) => console.log(err));
+    setDisable(false);
   };
   const cancelOrder = async (orderId) => {
+    setDisable(true);
     await axios({
       method: "PATCH",
       url: `${process.env.REACT_APP_BASE_URL}/pizza/orders/${orderId}/cancel`,
@@ -108,6 +118,7 @@ function Orders() {
         fethOrders();
       })
       .catch((err) => console.log(err));
+    setDisable(false);
   };
   return (
     <>
@@ -132,7 +143,10 @@ function Orders() {
                       {(order.status === "Order cancelled" ||
                         order.status === "Order delivered") && (
                         <Tooltip title="Delete Order">
-                          <IconButton onClick={() => deleteOrder(order._id)}>
+                          <IconButton
+                            disabled={disable}
+                            onClick={() => deleteOrder(order._id)}
+                          >
                             <DeleteOutlineOutlinedIcon
                               sx={{ color: "red", fontSize: 30 }}
                             />
@@ -141,7 +155,10 @@ function Orders() {
                       )}
                       {order.status !== "Order delivered" && (
                         <Tooltip title="Cancel Order">
-                          <IconButton onClick={() => cancelOrder(order._id)}>
+                          <IconButton
+                            disabled={disable}
+                            onClick={() => cancelOrder(order._id)}
+                          >
                             <CloseIcon sx={{ color: "red", fontSize: 30 }} />
                           </IconButton>
                         </Tooltip>
@@ -150,7 +167,10 @@ function Orders() {
                         <>
                           {order.status === "Order not placed" && (
                             <Tooltip title="Place Order">
-                              <IconButton onClick={() => placeOrder(order._id)}>
+                              <IconButton
+                                disabled={disable}
+                                onClick={() => placeOrder(order._id)}
+                              >
                                 <DoneIcon
                                   sx={{ color: "green", fontSize: 30 }}
                                 />
@@ -160,6 +180,7 @@ function Orders() {
                           {order.status === "Order placed" && (
                             <Tooltip title="Confirm Delivery">
                               <IconButton
+                                disabled={disable}
                                 onClick={() => outForDelivery(order._id)}
                               >
                                 <DeliveryDiningIcon
@@ -170,7 +191,10 @@ function Orders() {
                           )}
                           {order.status === "Order outs for delivery" && (
                             <Tooltip title="Confirm Delivered">
-                              <IconButton onClick={() => delivered(order._id)}>
+                              <IconButton
+                                disabled={disable}
+                                onClick={() => delivered(order._id)}
+                              >
                                 <CheckCircleOutlineIcon
                                   sx={{ color: "green", fontSize: 30 }}
                                 />
@@ -179,7 +203,7 @@ function Orders() {
                           )}
                           {order.status === "Order delivered" && (
                             <Tooltip title="Delivered">
-                              <IconButton>
+                              <IconButton disabled={disable}>
                                 <DoneAllIcon
                                   sx={{ color: "green", fontSize: 30 }}
                                 />

@@ -30,6 +30,7 @@ const validations = yup.object({
 });
 
 function Signin() {
+  const [disable, setDisable] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const [msg, setMsg] = useState("");
   const [open, setOpen] = useState(false);
@@ -40,6 +41,7 @@ function Signin() {
   const phone = useMediaQuery("(max-width:600px)");
 
   const signUp = async (values, onSubmitProps) => {
+    setDisable(true);
     const formdata = new FormData();
     for (let value in values) {
       formdata.append(value, values[value]);
@@ -63,8 +65,8 @@ function Signin() {
         setMsg("Invalid Username and Password!");
         setOpen(true);
         setAlertType("error");
-        navigate("/auth/signin");
       });
+    setDisable(false);
     onSubmitProps.resetForm();
   };
 
@@ -166,7 +168,13 @@ function Signin() {
                 </Link>
               </Typography>
             </Box>
-            <Button type="submit" fullWidth variant="contained" sx={{ mb: 3 }}>
+            <Button
+              type="submit"
+              disabled={disable}
+              fullWidth
+              variant="contained"
+              sx={{ mb: 3 }}
+            >
               Sign In
             </Button>
           </Box>

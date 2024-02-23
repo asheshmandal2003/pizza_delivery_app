@@ -11,15 +11,22 @@ export const sendMail = async (email, subject, text) => {
       port: Number(process.env.EMAIL_PORT),
       secure: Boolean(process.env.SECURE),
       auth: {
-        user: process.env.USER,
+        user: process.env.EMAIL_USER,
         pass: process.env.PASS,
-      },
+      }
     });
-    await transporter.sendMail({
-      from: process.env.USER,
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
       to: email,
       subject: subject,
       text: text,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error occurred:", error.response);
+      } else {
+        console.log("Email sent:", info.response);
+      }
     });
   } catch (error) {
     console.log(error.message);

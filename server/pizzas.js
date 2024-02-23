@@ -100,7 +100,7 @@ const pizzas = (req, res) => {
       {
         name: "Classic Cheese Pizza",
         image_url:
-          "https://samsgiantmanhattanpizzaca.com/wp-content/uploads/2019/04/cheese.jpg",
+          "https://www.foodandwine.com/thmb/4qg95tjf0mgdHqez5OLLYc0PNT4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/classic-cheese-pizza-FT-RECIPE0422-31a2c938fc2546c9a07b7011658cfd05.jpg",
         description:
           "The timeless favorite with a generous layer of melted mozzarella cheese.",
         price: 400,
@@ -204,7 +204,7 @@ const pizzas = (req, res) => {
       {
         name: "Bacon Spinach Alfredo Pizza",
         image_url:
-          "https://assets.kraftfoods.com/recipe_images/opendeploy/120201_640x428.jpg",
+          "https://butterwithasideofbread.com/wp-content/uploads/2017/10/Alfrado-Bacon-Pizza.20.jpg",
         description:
           "Creamy Alfredo sauce, bacon, spinach, and mozzarella cheese.",
         price: 350,
