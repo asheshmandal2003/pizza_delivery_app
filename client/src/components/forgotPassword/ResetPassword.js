@@ -3,11 +3,10 @@ import {
   Box,
   Button,
   Card,
-  FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
-  OutlinedInput,
+  Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -19,7 +18,8 @@ import { useNavigate, useParams } from "react-router-dom";
 function ResetPassword() {
   const params = useParams();
   const navigate = useNavigate();
-  const [visibility, setVisibility] = useState(false);
+  const [visibility, setVisibility] = useState(() => false);
+  const [disable, setDisable] = useState(() => false);
   const handleVisibility = () => {
     setVisibility(!visibility);
   };
@@ -36,16 +36,14 @@ function ResetPassword() {
         .required("Password is required!"),
       confirmPassword: yup
         .string()
-        .min(8, "Password must contain minimum 8 characters!")
-        .required("Password is required!"),
+        .oneOf([yup.ref("newPassword"), null], "Passwords must match")
+        .required("Confirm your password!"),
     }),
   });
   async function resetPassword(values) {
+    setDisable(true);
     const formdata = new FormData();
     formdata.append("confirmPassword", values["confirmPassword"]);
-    // for (let value in values) {
-    //   console.log(values[value]);
-    // }
     await axios({
       method: "post",
       url: `${process.env.REACT_APP_BASE_URL}/forgot-password/users/${params.id}/reset-password`,
@@ -56,84 +54,110 @@ function ResetPassword() {
     })
       .then(() => navigate("/auth/signin"))
       .catch((err) => console.log(err.response));
+    setDisable(false);
   }
   return (
     <Box
-      height="120vh"
+      width="100%"
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
       <Card
         component="form"
         onSubmit={formik.handleSubmit}
         sx={{
-          width: "25rem",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
+          width: 350,
+          mt: 5,
           p: 4,
         }}
       >
-        <Box
-          component="img"
-          src="https://img.freepik.com/premium-vector/password-reset-icon-flat-vector-design_116137-4571.jpg?w=740"
-          width={200}
-          height={200}
-          borderRadius="50%"
-        />
-        <Typography variant="h5" mb={1}>
-          Reset Password
-        </Typography>
-        <Typography variant="caption" mb={3}>
-          Enter your new password here
-        </Typography>
-        <FormControl fullWidth sx={{ mb: 3 }}>
-          <InputLabel>New Password</InputLabel>
-          <OutlinedInput
+        <Stack
+          spacing={3}
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <img
+            src="/images/password.svg"
+            alt="reset-password"
+            width={100}
+            height={100}
+          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h6">Reset Password</Typography>
+            <Typography variant="caption" color="text.secondary">
+              Enter your new password here
+            </Typography>
+          </div>
+          <TextField
             autoFocus
             fullWidth
-            label="New Password"
+            variant="filled"
             name="newPassword"
-            type={visibility ? "text" : "password"}
+            id="newPassword"
+            label="New Password"
+            placeholder="Enter the new password"
             value={formik.values.newPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={Boolean(
-              formik.touched.newPassword && formik.errors.newPassword
-            )}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton onClick={handleVisibility}>
-                  {visibility ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
+            error={
+              Boolean(formik.touched.newPassword) &&
+              Boolean(formik.errors.newPassword)
             }
-          />
-          <Typography variant="caption" color="error" mt={1}>
-            {formik.errors.newPassword}
-          </Typography>
-        </FormControl>
-        <FormControl fullWidth sx={{ mb: 3 }}>
-          <InputLabel>Confirm Password</InputLabel>
-          <OutlinedInput
-            fullWidth
-            label="Confirm Password"
-            name="confirmPassword"
+            helperText={
+              Boolean(formik.touched.newPassword) && formik.errors.newPassword
+            }
             type={visibility ? "text" : "password"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleVisibility}>
+                    {visibility ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <TextField
+            fullWidth
+            variant="filled"
+            name="confirmPassword"
+            id="confirmPassword"
+            label="Confirm Password"
+            placeholder="Re enter the new password"
             value={formik.values.confirmPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={Boolean(
-              formik.touched.newPassword && formik.errors.confirmPassword
-            )}
+            error={
+              Boolean(formik.touched.confirmPassword) &&
+              Boolean(formik.errors.confirmPassword)
+            }
+            helperText={
+              Boolean(formik.touched.confirmPassword) &&
+              formik.errors.confirmPassword
+            }
+            type={visibility ? "text" : "password"}
           />
-          <Typography variant="caption" color="error" mt={1}>
-            {formik.errors.confirmPassword}
-          </Typography>
-        </FormControl>
-        <Button variant="contained" type="submit" fullWidth>
-          Update
-        </Button>
+          <Button
+            variant="contained"
+            type="submit"
+            fullWidth
+            color="success"
+            disabled={disable}
+          >
+            {disable ? "Updating..." : "Update"}
+          </Button>
+        </Stack>
       </Card>
     </Box>
   );

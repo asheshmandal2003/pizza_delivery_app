@@ -3,11 +3,10 @@ import {
   Box,
   Button,
   Card,
-  FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
-  OutlinedInput,
+  Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -37,7 +36,6 @@ function Signin() {
   const [alertType, setAlertType] = useState("error");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const tab = useMediaQuery("(max-width:1200px)");
   const phone = useMediaQuery("(max-width:600px)");
 
   const signUp = async (values, onSubmitProps) => {
@@ -86,71 +84,78 @@ function Signin() {
     <>
       <Box
         sx={{
-          height: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
         <Card
+          component="form"
+          onSubmit={formik.handleSubmit}
           sx={{
-            width: tab ? (phone ? 280 : 350) : 400,
-            p: 4,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
+            mt: 5,
+            width: phone ? "80%" : 400,
+            p: phone ? 2 : 4,
           }}
         >
-          <Typography variant="h5" color="primary" sx={{ mb: 3 }}>
-            Sign In
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={formik.handleSubmit}
-            sx={{ width: "100%" }}
+          <Stack
+            spacing={3}
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
           >
-            <FormControl fullWidth sx={{ mb: 3 }}>
-              <InputLabel>Email</InputLabel>
-              <OutlinedInput
-                id="email"
-                name="email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                label="Email"
-                error={
-                  Boolean(formik.errors.email) && Boolean(formik.touched.email)
-                }
-              />
-              <Typography color="error" mt={1} variant="caption">
-                {Boolean(formik.touched.email) && formik.errors.email}
-              </Typography>
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 3 }}>
-              <InputLabel>Password</InputLabel>
-              <OutlinedInput
-                id="password"
-                name="password"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                label="Password"
-                error={
-                  Boolean(formik.errors.password) &&
-                  Boolean(formik.touched.password)
-                }
-                type={visibility ? "text" : "password"}
-                endAdornment={
+            <Typography variant="h5" color="primary" sx={{ mb: 3 }}>
+              Sign In
+            </Typography>
+            <TextField
+              autoFocus
+              fullWidth
+              name="email"
+              id="email"
+              label="Email"
+              placeholder="john@example.com"
+              type="email"
+              size={phone ? "small" : "medium"}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                Boolean(formik.touched.email) && Boolean(formik.errors.email)
+              }
+              helperText={Boolean(formik.touched.email) && formik.errors.email}
+            />
+
+            <TextField
+              fullWidth
+              name="password"
+              id="password"
+              label="Password"
+              size={phone ? "small" : "medium"}
+              type={visibility ? "text" : "password"}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                Boolean(formik.touched.password) &&
+                Boolean(formik.errors.password)
+              }
+              helperText={
+                Boolean(formik.touched.password) && formik.errors.password
+              }
+              InputProps={{
+                endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={handleVisibility}>
                       {visibility ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                }
-              />
-              <Typography color="error" mt={1} variant="caption">
-                {Boolean(formik.touched.password) && formik.errors.password}
-              </Typography>
-            </FormControl>
+                ),
+              }}
+            />
             <Box
               mb={3}
               sx={{
@@ -172,20 +177,26 @@ function Signin() {
               type="submit"
               disabled={disable}
               fullWidth
+              size={phone ? "small" : "medium"}
               variant="contained"
               sx={{ mb: 3 }}
             >
-              Sign In
+              {disable ? "Signing In..." : "Sign In"}
             </Button>
-          </Box>
-          <Typography sx={{ mb: 3 }}>
-            Don't have an account?
-            <Link to="/auth/signup" style={{ mb: 3, textDecoration: "none" }}>
-              <Typography component="span" color="primary" ml={1}>
-                Sign Up
-              </Typography>
-            </Link>
-          </Typography>
+            <Typography sx={{ mb: 3 }}>
+              Don't have an account?
+              <Link to="/auth/signup" style={{ mb: 3, textDecoration: "none" }}>
+                <Typography
+                  component="span"
+                  color="primary"
+                  ml={1}
+                  sx={{ textDecoration: "underline" }}
+                >
+                  Sign Up
+                </Typography>
+              </Link>
+            </Typography>
+          </Stack>
         </Card>
       </Box>
       <ShowAlert

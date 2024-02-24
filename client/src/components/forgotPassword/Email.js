@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
   Card,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
+  CircularProgress,
+  Stack,
+  TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -15,7 +15,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Email() {
-  const phone = useMediaQuery("(max-width:800px)");
+  const [disable, setDisable] = useState(() => false);
+  const phone = useMediaQuery("(max-width:400px)");
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -30,10 +31,11 @@ function Email() {
     }),
   });
   async function checkEmail(values) {
+    setDisable(true);
     const formdata = new FormData();
     formdata.append("email", values.email);
     await axios({
-      method: "post",
+      method: "POST",
       url: `${process.env.REACT_APP_BASE_URL}/forgot-password`,
       data: formdata,
       headers: {
@@ -42,6 +44,7 @@ function Email() {
     })
       .then((res) => navigate(`/forgot-password/users/${res.data._id}`))
       .catch((err) => console.log(err.response));
+    setDisable(true);
   }
   return (
     <Box
@@ -54,47 +57,63 @@ function Email() {
         component="form"
         onSubmit={formik.handleSubmit}
         sx={{
-          width: phone ? 300 : 400,
-          height: 600,
-          p: 4,
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
+          width: phone ? "80%" : 350,
+          height: 550,
+          p: phone ? 2 : 4,
         }}
       >
-        <Box
-          component="img"
-          width={200}
-          height={200}
-          src="https://img.freepik.com/premium-vector/email-messaging-email-marketing-campaign_183665-8.jpg?w=740"
-          sx={{ borderRadius: "50%" }}
-        />
-        <Typography variant="h5" mb={1}>
-          Find your email
-        </Typography>
-        <Typography mb={3}>Enter your recovery email</Typography>
-        <FormControl sx={{ mb: 3, width: "100%" }}>
-          <InputLabel>Email</InputLabel>
-          <OutlinedInput
-            fullWidth
-            autoFocus
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            name="email"
-            label="Email"
-            error={formik.touched.email && formik.errors.email}
+        <Stack
+          spacing={3}
+          sx={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <img
+            src="/images/email.svg"
+            alt="email-verification"
+            width={100}
+            height={100}
           />
-          {formik.touched.email && (
-            <Typography mt={1} color="error" variant="caption">
-              {formik.errors.email}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h6">Find your email</Typography>
+            <Typography variant="caption" color="text.secondary">
+              Enter your registered email
             </Typography>
-          )}
-        </FormControl>
-        <Box width="100%" sx={{ display: "flex", justifyContent: "end" }}>
-          <Button variant="contained" type="submit">
-            Next
+          </div>
+          <TextField
+            autoFocus
+            fullWidth
+            name="email"
+            id="email"
+            label="Email"
+            type="email"
+            placeholder="john@example.com"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              Boolean(formik.touched.email) && Boolean(formik.errors.email)
+            }
+            helperText={Boolean(formik.touched.email) && formik.errors.email}
+          />
+          <Button
+            variant="contained"
+            type="submit"
+            disabled={disable}
+            sx={{ alignSelf: "flex-end" }}
+          >
+            {disable ? <CircularProgress size={20} /> : "Next"}
           </Button>
-        </Box>
+        </Stack>
       </Card>
     </Box>
   );

@@ -17,6 +17,11 @@ import { verifyToken } from "./middleware/auth.js";
 import MongoStore from "connect-mongo";
 import helmet from "helmet";
 
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then((res) => console.log(res.ConnectionStates.connected))
+  .catch((err) => console.log(err));
+
 const app = express();
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
@@ -62,11 +67,7 @@ app.use("/pizza/users", paymentRoute);
 app.use("/pizza", ordersRoute);
 app.get("/pizzas", verifyToken, pizzas);
 
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() =>
-    app.listen(PORT, () => {
-      console.log(`App is listening on ${PORT}`);
-    })
-  )
-  .catch((error) => console.log(error));
+mongoose;
+app.listen(PORT, () => {
+  console.log(`App is listening on ${PORT}`);
+});

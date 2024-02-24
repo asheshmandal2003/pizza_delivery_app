@@ -6,6 +6,7 @@ import {
   FormControl,
   IconButton,
   InputAdornment,
+  Stack,
   TextField,
   Typography,
   useMediaQuery,
@@ -41,7 +42,6 @@ function Signup() {
   const [open, setOpen] = useState(false);
   const [pageType, setPageType] = useState("user");
   const navigate = useNavigate();
-  const tab = useMediaQuery("(max-width:1200px)");
   const phone = useMediaQuery("(max-width:600px)");
 
   const signUp = async (values, onSubmitProps) => {
@@ -88,13 +88,9 @@ function Signup() {
     <>
       <Box
         sx={{
-          height: "100vh",
+          width: "100%",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          mt: 5,
-          mb: 7,
         }}
       >
         {/* {pageType === "user" && (
@@ -111,76 +107,99 @@ function Signup() {
           </Alert>
         )} */}
         <Card
+          component="form"
+          onSubmit={formik.handleSubmit}
           sx={{
-            width: tab ? (phone ? 280 : 350) : 400,
-            p: 4,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
+            width: phone ? "80%" : 400,
+            p: phone ? 2 : 4,
+            my: 5,
           }}
         >
-          <Typography variant="h5" color="primary" sx={{ mb: 3 }}>
-            {pageType === "user" ? "Sign Up" : "Admin Register"}
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={formik.handleSubmit}
-            sx={{ width: "100%" }}
+          <Stack
+            spacing={3}
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
           >
-            <FormControl fullWidth sx={{ mb: 3 }}>
-              <TextField
-                id="name"
-                name="name"
-                onChange={formik.handleChange}
-                value={formik.values.name}
-                label="Name"
-                error={formik.errors.name && formik.touched.name}
-                helperText={formik.touched.name && formik.errors.name}
-                autoFocus
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 3 }}>
-              <TextField
-                id="location"
-                name="location"
-                onChange={formik.handleChange}
-                value={formik.values.location}
-                label="Location"
-                error={formik.errors.location && formik.touched.location}
-                helperText={formik.touched.location && formik.errors.location}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 3 }}>
-              <TextField
-                id="email"
-                name="email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                label="Email"
-                error={formik.errors.email && formik.touched.email}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 3 }}>
-              <TextField
-                id="password"
-                name="password"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                label="Password"
-                error={formik.errors.password && formik.touched.password}
-                helperText={formik.touched.password && formik.errors.password}
-                type={visibility ? "text" : "password"}
-                endadornment={
+            <Typography variant="h5" color="primary" sx={{ mb: 3 }}>
+              {pageType === "user" ? "Sign Up" : "Admin Register"}
+            </Typography>
+            <TextField
+              autoFocus
+              fullWidth
+              id="name"
+              name="name"
+              placeholder="Enter your full name"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              label="Name"
+              onBlur={formik.handleBlur}
+              error={
+                Boolean(formik.errors.name) && Boolean(formik.touched.name)
+              }
+              helperText={Boolean(formik.touched.name) && formik.errors.name}
+            />
+            <TextField
+              fullWidth
+              id="location"
+              name="location"
+              placeholder="Enter your location"
+              onChange={formik.handleChange}
+              value={formik.values.location}
+              label="Location"
+              onBlur={formik.handleBlur}
+              error={
+                Boolean(formik.errors.location) &&
+                Boolean(formik.touched.location)
+              }
+              helperText={
+                Boolean(formik.touched.location) && formik.errors.location
+              }
+            />
+            <TextField
+              fullWidth
+              id="email"
+              name="email"
+              placeholder="john@example.com"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              label="Email"
+              onBlur={formik.handleBlur}
+              error={
+                Boolean(formik.errors.email) && Boolean(formik.touched.email)
+              }
+              helperText={Boolean(formik.touched.email) && formik.errors.email}
+            />
+            <TextField
+              fullWidth
+              id="password"
+              name="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+              label="Password"
+              placeholder="Enter minimum 8 digit password"
+              error={
+                Boolean(formik.errors.password) &&
+                Boolean(formik.touched.password)
+              }
+              helperText={
+                Boolean(formik.touched.password) && formik.errors.password
+              }
+              type={visibility ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={handleVisibility}>
                       {visibility ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                }
-              />
-            </FormControl>
+                ),
+              }}
+            />
             <Button
               type="submit"
               disabled={disable}
@@ -188,17 +207,21 @@ function Signup() {
               variant="contained"
               sx={{ mb: 3 }}
             >
-              Sign Up
+              {disable ? "Registering..." : "Sign up"}
             </Button>
-          </Box>
-          <Typography sx={{ mb: 3 }}>
-            Already have an account?
-            <Link to="/auth/signin" style={{ mb: 3, textDecoration: "none" }}>
-              <Typography component="span" color="primary" ml={1}>
-                Sign In
-              </Typography>
-            </Link>
-          </Typography>
+            <Typography sx={{ mb: 3 }}>
+              Already have an account?{" "}
+              <Link to="/auth/signin" style={{ mb: 3, textDecoration: "none" }}>
+                <Typography
+                  component="span"
+                  color="primary"
+                  sx={{ textDecoration: "underline" }}
+                >
+                  Sign In
+                </Typography>
+              </Link>
+            </Typography>
+          </Stack>
         </Card>
       </Box>
       <ShowAlert
