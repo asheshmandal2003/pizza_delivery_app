@@ -4,33 +4,28 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import { useState } from "react";
 import { deepOrange } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../state/auth.js";
-import axios from "axios";
+import {
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
+import { AccountCircle, Logout } from "@mui/icons-material";
+import DrawerMenu from "./DrawerMenu.js";
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.token);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -42,8 +37,8 @@ function ResponsiveAppBar() {
   };
 
   const signout = async () => {
-      dispatch(logout());
-      handleClose();
+    dispatch(logout());
+    handleClose();
   };
 
   const navigate = useNavigate();
@@ -52,7 +47,13 @@ function ResponsiveAppBar() {
     <AppBar position="sticky" color="error">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <LocalPizzaIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Box
+            component="img"
+            src="/images/pizza.svg"
+            height={40}
+            width={40}
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -72,44 +73,15 @@ function ResponsiveAppBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              <MenuItem onClick={() => navigate("/pizza")}>Home</MenuItem>
-              <MenuItem onClick={() => navigate("/pizza/create")}>
-                Create Pizza
-              </MenuItem>
-              <MenuItem onClick={() => navigate("/pizza/orders")}>
-                {user.pageType === "user" ? "Orders" : "Track Orders"}
-              </MenuItem>
-            </Menu>
+            <DrawerMenu user={user} />
           </Box>
-          <LocalPizzaIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <Box
+            component="img"
+            src="/images/pizza.svg"
+            height={40}
+            width={40}
+            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+          />
           <Typography
             variant="h5"
             noWrap
@@ -149,7 +121,7 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {user ? (
+            {user && (
               <>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleClick} sx={{ p: 0 }}>
@@ -167,37 +139,33 @@ function ResponsiveAppBar() {
                     "aria-labelledby": "basic-button",
                   }}
                 >
-                  {user.pageType === "user" && (
-                    <MenuItem
-                      onClick={() => {
-                        navigate("/pizza/user");
-                      }}
-                    >
-                      Profile
-                    </MenuItem>
-                  )}
-                  {user.pageType === "admin" && (
-                    <MenuItem
-                      onClick={() => {
-                        navigate("/pizza/dashboard");
-                        handleClose();
-                      }}
-                    >
-                      Dashboard
-                    </MenuItem>
-                  )}
-                  <MenuItem onClick={signout}>Log Out</MenuItem>
+                  <List disablePadding sx={{ width: 200 }}>
+                    <ListItem disablePadding>
+                      <ListItemButton
+                        onClick={() => {
+                          navigate("/pizza/user");
+                        }}
+                      >
+                        <Avatar>
+                          <AccountCircle />
+                        </Avatar>
+                        <ListItemText primary="Profile" sx={{ ml: 1 }} />
+                      </ListItemButton>
+                    </ListItem>
+                    <Divider />
+                    <ListItem disablePadding>
+                      <ListItemButton onClick={signout}>
+                        <Avatar>
+                          <Logout />
+                        </Avatar>
+                        <Typography color="error" sx={{ ml: 1 }}>
+                          Log out
+                        </Typography>
+                      </ListItemButton>
+                    </ListItem>
+                  </List>
                 </Menu>
               </>
-            ) : (
-              <Box sx={{ display: "flex" }}>
-                <MenuItem onClick={() => navigate("/auth/signin")}>
-                  Sign In
-                </MenuItem>
-                <MenuItem onClick={() => navigate("/auth/signup")}>
-                  Sign Up
-                </MenuItem>
-              </Box>
             )}
           </Box>
         </Toolbar>

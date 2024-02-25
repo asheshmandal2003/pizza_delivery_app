@@ -10,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -38,14 +37,14 @@ function Signin() {
   const navigate = useNavigate();
   const phone = useMediaQuery("(max-width:600px)");
 
-  const signUp = async (values, onSubmitProps) => {
+  const signUp = async (values) => {
     setDisable(true);
     const formdata = new FormData();
     for (let value in values) {
       formdata.append(value, values[value]);
     }
     await axios({
-      method: "post",
+      method: "POST",
       url: `${process.env.REACT_APP_BASE_URL}/auth/signin`,
       data: formdata,
       headers: {
@@ -65,7 +64,6 @@ function Signin() {
         setAlertType("error");
       });
     setDisable(false);
-    onSubmitProps.resetForm();
   };
 
   const formik = useFormik({
@@ -73,7 +71,7 @@ function Signin() {
       email: "",
       password: "",
     },
-    onSubmit: (values, onSubmitProps) => signUp(values, onSubmitProps),
+    onSubmit: (values) => signUp(values),
     validationSchema: validations,
   });
 
@@ -94,8 +92,9 @@ function Signin() {
           onSubmit={formik.handleSubmit}
           sx={{
             mt: 5,
-            width: phone ? "80%" : 400,
-            p: phone ? 2 : 4,
+            width: phone ? "76%" : 400,
+            p: phone ? 3 : 4,
+            pb: 8,
           }}
         >
           <Stack
@@ -108,7 +107,7 @@ function Signin() {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h5" color="primary" sx={{ mb: 3 }}>
+            <Typography variant={phone ? "h6" : "h5"} color="primary">
               Sign In
             </Typography>
             <TextField
@@ -164,13 +163,14 @@ function Signin() {
                 justifyContent: "end",
               }}
             >
-              <Typography sx={{ cursor: "pointer" }}>
-                <Link
-                  to="/forgot-password"
-                  style={{ textDecoration: "none", color: "crimson" }}
-                >
-                  Forgot Password?
-                </Link>
+              <Typography
+                variant="body2"
+                color="error"
+                component={"div"}
+                onClick={() => navigate("/forgot-password")}
+                sx={{ cursor: "pointer" }}
+              >
+                Forgot Password
               </Typography>
             </Box>
             <Button
@@ -183,18 +183,16 @@ function Signin() {
             >
               {disable ? "Signing In..." : "Sign In"}
             </Button>
-            <Typography sx={{ mb: 3 }}>
-              Don't have an account?
-              <Link to="/auth/signup" style={{ mb: 3, textDecoration: "none" }}>
-                <Typography
-                  component="span"
-                  color="primary"
-                  ml={1}
-                  sx={{ textDecoration: "underline" }}
-                >
-                  Sign Up
-                </Typography>
-              </Link>
+            <Typography variant="body2">
+              Don't have an account?{" "}
+              <Typography
+                component="span"
+                color="primary"
+                sx={{ textDecoration: "underline", cursor: "pointer" }}
+                onClick={() => navigate("/auth/signup")}
+              >
+                Sign up
+              </Typography>
             </Typography>
           </Stack>
         </Card>

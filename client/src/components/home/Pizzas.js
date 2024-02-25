@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Pizza from "./Pizza";
-import { ImageList, ImageListItem, useMediaQuery } from "@mui/material";
+import { Grid, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import HomeLoading from "../Loading/HomeLoading";
 
 function Pizzas() {
   const [pizzas, setPizzas] = useState([]);
-  const tab = useMediaQuery("(max-width:1200px)");
-  const phone = useMediaQuery("(max-width:800px)");
+  const phone = useMediaQuery("(max-width:600px)");
   const token = useSelector((state) => state.token);
   useEffect(() => {
     const fetchPizzas = async () => {
@@ -32,42 +31,52 @@ function Pizzas() {
   }, []);
 
   return (
-    <ImageList
-      direction="row"
-      cols={tab ? (phone ? 1 : 2) : 3}
-      sx={{
-        p: 7,
-        display: `${phone ? "flex" : false}`,
-        justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <>
       {pizzas.length === 0 ? (
-        <>
-          <HomeLoading />
-          <HomeLoading />
-          <HomeLoading />
-          <HomeLoading />
-          <HomeLoading />
-          <HomeLoading />
-        </>
+        <Grid container spacing={phone ? 3 : 5} p={phone ? 6 : 5}>
+          <Grid item xs={12} sm={6} md={3}>
+            <HomeLoading />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <HomeLoading />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <HomeLoading />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <HomeLoading />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <HomeLoading />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <HomeLoading />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <HomeLoading />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <HomeLoading />
+          </Grid>
+        </Grid>
       ) : (
-        pizzas.map((pizza, idx) => {
-          return (
-            <ImageListItem key={idx}>
-              <Pizza
-                id={pizza._id}
-                name={pizza.name}
-                price={pizza.price}
-                description={pizza.description}
-                image={pizza.image_url}
-              />
-            </ImageListItem>
-          );
-        })
+        <Grid container spacing={phone ? 3 : 5} p={phone ? 6 : 5}>
+          {pizzas.map((pizza, idx) => {
+            return (
+              <Grid item xs={12} sm={6} md={3} key={idx}>
+                <Pizza
+                  id={pizza._id}
+                  name={pizza.name}
+                  price={pizza.price}
+                  description={pizza.description}
+                  image={pizza.image_url}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
       )}
-    </ImageList>
+    </>
   );
 }
 

@@ -54,8 +54,6 @@ function Otp() {
     <Box
       sx={{
         width: "100%",
-        mt: 5,
-        mb: 7,
         display: "flex",
         justifyContent: "center",
       }}
@@ -64,8 +62,10 @@ function Otp() {
         component="form"
         onSubmit={formik.handleSubmit}
         sx={{
-          width: phone ? "80%" : 350,
-          p: phone ? 2 : 4,
+          width: phone ? "76%" : 350,
+          p: phone ? 3 : 4,
+          pb: 8,
+          my: 5,
         }}
       >
         <Stack
@@ -76,7 +76,7 @@ function Otp() {
             alignItems: "center",
           }}
         >
-          <img src="/images/otp.svg" alt="OTP" width={100} height={100} />
+          <img src="/images/otp.svg" alt="OTP" width={80} height={80} />
           <div
             style={{
               display: "flex",

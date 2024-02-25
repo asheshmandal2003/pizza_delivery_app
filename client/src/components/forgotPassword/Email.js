@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 function Email() {
   const [disable, setDisable] = useState(() => false);
-  const phone = useMediaQuery("(max-width:400px)");
+  const phone = useMediaQuery("(max-width:500px)");
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -57,9 +57,9 @@ function Email() {
         component="form"
         onSubmit={formik.handleSubmit}
         sx={{
-          width: phone ? "80%" : 350,
+          width: phone ? "76%" : 350,
           height: 550,
-          p: phone ? 2 : 4,
+          p: phone ? 3 : 4,
         }}
       >
         <Stack
@@ -74,8 +74,8 @@ function Email() {
           <img
             src="/images/email.svg"
             alt="email-verification"
-            width={100}
-            height={100}
+            width={80}
+            height={80}
           />
           <div
             style={{
@@ -97,6 +97,7 @@ function Email() {
             label="Email"
             type="email"
             placeholder="john@example.com"
+            size={phone ? "small" : "medium"}
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -108,6 +109,7 @@ function Email() {
           <Button
             variant="contained"
             type="submit"
+            size={phone ? "small" : "medium"}
             disabled={disable}
             sx={{ alignSelf: "flex-end" }}
           >

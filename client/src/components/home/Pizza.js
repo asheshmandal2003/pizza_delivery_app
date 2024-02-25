@@ -1,21 +1,24 @@
 import {
-  Box,
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   CardMedia,
+  Divider,
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 function Pizza({ name, price, description, image }) {
+  const [disable, setDisable] = useState(() => false);
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const buy = async (amount, name) => {
     try {
+      setDisable(true);
       const formdata = new FormData();
       formdata.append("price", amount);
       await axios({
@@ -54,47 +57,61 @@ function Pizza({ name, price, description, image }) {
     } catch (error) {
       console.log(error);
     }
+    setDisable(false);
   };
   return (
     <Card
       sx={{
-        width: 350,
-        height: 440,
-        mb: 4,
-        boxShadow: 3,
+        height: 460,
+        pb: 4,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
         "&:hover": { boxShadow: 9 },
       }}
     >
-      <Box height={197} overflow={"hidden"}>
+      <div
+        style={{
+          height: 200,
+          overflow: "hidden",
+        }}
+      >
         <CardMedia
           component="img"
-          height={197}
+          height={200}
           image={image}
           alt={name}
           loading="lazy"
           sx={{
-            transition: "0.3s ease-out",
-            "&:hover": { scale: "120%" },
+            transition: "0.2s ease-out",
+            "&:hover": { scale: "110%" },
           }}
         />
-      </Box>
+      </div>
       <CardHeader title={name} subheader={`₹${price}`} />
+      <Divider />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
       </CardContent>
-      {user.pageType === "user" && (
-        <CardActions>
+      <Divider />
+      <CardActions>
+        {user.pageType === "user" && (
           <Button
+            fullWidth
+            disabled={disable}
             onClick={() => buy(price, name)}
             variant="contained"
             color="error"
+            sx={{
+              mt: "auto",
+            }}
           >
             Order Now
           </Button>
-        </CardActions>
-      )}
+        )}
+      </CardActions>
     </Card>
   );
 }

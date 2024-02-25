@@ -8,6 +8,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useFormik } from "formik";
@@ -17,6 +18,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function ResetPassword() {
   const params = useParams();
+  const phone = useMediaQuery("(max-width:600px)");
   const navigate = useNavigate();
   const [visibility, setVisibility] = useState(() => false);
   const [disable, setDisable] = useState(() => false);
@@ -65,9 +67,10 @@ function ResetPassword() {
         component="form"
         onSubmit={formik.handleSubmit}
         sx={{
-          width: 350,
-          mt: 5,
-          p: 4,
+          width: phone ? "76%" : 350,
+          my: 5,
+          p: phone ? 3 : 4,
+          pb: 8,
         }}
       >
         <Stack
@@ -83,8 +86,8 @@ function ResetPassword() {
           <img
             src="/images/password.svg"
             alt="reset-password"
-            width={100}
-            height={100}
+            width={80}
+            height={80}
           />
           <div
             style={{
@@ -106,6 +109,7 @@ function ResetPassword() {
             id="newPassword"
             label="New Password"
             placeholder="Enter the new password"
+            size={phone ? "small" : "medium"}
             value={formik.values.newPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -135,6 +139,7 @@ function ResetPassword() {
             id="confirmPassword"
             label="Confirm Password"
             placeholder="Re enter the new password"
+            size={phone ? "small" : "medium"}
             value={formik.values.confirmPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -153,6 +158,7 @@ function ResetPassword() {
             type="submit"
             fullWidth
             color="success"
+            size={phone ? "small" : "medium"}
             disabled={disable}
           >
             {disable ? "Updating..." : "Update"}

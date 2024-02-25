@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  FormControl,
   IconButton,
   InputAdornment,
   Stack,
@@ -11,8 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +42,7 @@ function Signup() {
   const navigate = useNavigate();
   const phone = useMediaQuery("(max-width:600px)");
 
-  const signUp = async (values, onSubmitProps) => {
+  const signUp = async (values) => {
     setDisable(true);
     const formdata = new FormData();
     for (let value in values) {
@@ -67,7 +65,6 @@ function Signup() {
         setDisable(false);
         setOpen(true);
       });
-    onSubmitProps.resetForm();
   };
 
   const formik = useFormik({
@@ -77,7 +74,7 @@ function Signup() {
       email: "",
       password: "",
     },
-    onSubmit: (values, onSubmitProps) => signUp(values, onSubmitProps),
+    onSubmit: (values) => signUp(values),
     validationSchema: validations,
   });
 
@@ -110,9 +107,10 @@ function Signup() {
           component="form"
           onSubmit={formik.handleSubmit}
           sx={{
-            width: phone ? "80%" : 400,
-            p: phone ? 2 : 4,
+            width: phone ? "76%" : 400,
+            p: phone ? 3 : 4,
             my: 5,
+            pb: 8,
           }}
         >
           <Stack
@@ -125,7 +123,11 @@ function Signup() {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h5" color="primary" sx={{ mb: 3 }}>
+            <Typography
+              variant={phone ? "h6" : "h5"}
+              color="primary"
+              sx={{ mb: 3 }}
+            >
               {pageType === "user" ? "Sign Up" : "Admin Register"}
             </Typography>
             <TextField
@@ -134,6 +136,7 @@ function Signup() {
               id="name"
               name="name"
               placeholder="Enter your full name"
+              size={phone ? "small" : "medium"}
               onChange={formik.handleChange}
               value={formik.values.name}
               label="Name"
@@ -148,6 +151,7 @@ function Signup() {
               id="location"
               name="location"
               placeholder="Enter your location"
+              size={phone ? "small" : "medium"}
               onChange={formik.handleChange}
               value={formik.values.location}
               label="Location"
@@ -165,6 +169,7 @@ function Signup() {
               id="email"
               name="email"
               placeholder="john@example.com"
+              size={phone ? "small" : "medium"}
               onChange={formik.handleChange}
               value={formik.values.email}
               label="Email"
@@ -178,6 +183,7 @@ function Signup() {
               fullWidth
               id="password"
               name="password"
+              size={phone ? "small" : "medium"}
               onChange={formik.handleChange}
               value={formik.values.password}
               label="Password"
@@ -204,22 +210,22 @@ function Signup() {
               type="submit"
               disabled={disable}
               fullWidth
+              size={phone ? "small" : "medium"}
               variant="contained"
               sx={{ mb: 3 }}
             >
               {disable ? "Registering..." : "Sign up"}
             </Button>
-            <Typography sx={{ mb: 3 }}>
+            <Typography variant="body2">
               Already have an account?{" "}
-              <Link to="/auth/signin" style={{ mb: 3, textDecoration: "none" }}>
-                <Typography
-                  component="span"
-                  color="primary"
-                  sx={{ textDecoration: "underline" }}
-                >
-                  Sign In
-                </Typography>
-              </Link>
+              <Typography
+                component="span"
+                color="primary"
+                onClick={() => navigate("/auth/signin")}
+                sx={{ textDecoration: "underline", cursor: "pointer" }}
+              >
+                Sign in
+              </Typography>
             </Typography>
           </Stack>
         </Card>
