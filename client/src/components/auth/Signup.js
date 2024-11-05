@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -90,19 +91,19 @@ function Signup() {
           justifyContent: "center",
         }}
       >
-        {/* {pageType === "user" && (
+        {pageType === "user" && (
           <Alert
             severity="info"
             onClick={() => setPageType("admin")}
             sx={{
-              width: tab ? (phone ? 280 : 350) : 400,
+              width: phone ? "76%" : 400,
               mb: 3,
               cursor: "pointer",
             }}
           >
             Register as admin
           </Alert>
-        )} */}
+        )}
         <Card
           component="form"
           onSubmit={formik.handleSubmit}
