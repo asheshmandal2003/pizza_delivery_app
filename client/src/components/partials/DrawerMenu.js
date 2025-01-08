@@ -35,25 +35,31 @@ export default function DrawerMenu({ user }) {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate("/pizza/create")}>
+          <ListItemButton
+            onClick={() =>
+              user ? navigate("/pizza/create") : navigate("/auth")
+            }
+          >
             <Avatar>
               <LocalPizza />
             </Avatar>
             <ListItemText primary="Create Pizza" sx={{ ml: 1 }} />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate("/pizza/orders")}>
-            <Avatar>
-              <DeliveryDining />
-            </Avatar>
-            <ListItemText
-              primary={user.pageType === "admin" ? "Orders" : "Track Orders"}
-              sx={{ ml: 1 }}
-            />
-          </ListItemButton>
-        </ListItem>
-        {user.pageType === "admin" && (
+        {user && (
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => navigate("/pizza/orders")}>
+              <Avatar>
+                <DeliveryDining />
+              </Avatar>
+              <ListItemText
+                primary={user.pageType === "admin" ? "Orders" : "Track Orders"}
+                sx={{ ml: 1 }}
+              />
+            </ListItemButton>
+          </ListItem>
+        )}
+        {user && user.pageType === "admin" && (
           <ListItem disablePadding>
             <ListItemButton onClick={() => navigate("/pizza/dashboard")}>
               <Avatar>

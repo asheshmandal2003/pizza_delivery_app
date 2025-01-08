@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { sendMail } from "../utils/sendMail.js";
 import { Dashboard } from "../models/dashboard.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 async function sendVerificationEmail(email, user, url) {
   await sendMail(
@@ -87,7 +88,7 @@ export const signin = async (req, res) => {
       return res.status(403).json({ message: "Email not verified" });
     }
 
-    const isMatch = await user.comparePassword(password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid password" });
     }

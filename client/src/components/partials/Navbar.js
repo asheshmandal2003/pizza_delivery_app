@@ -9,7 +9,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
-import { deepOrange } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../state/auth.js";
@@ -44,7 +43,7 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
 
   return (
-    <AppBar position="sticky" color="error">
+    <AppBar position="sticky" sx={{ bgcolor: "error.dark" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
@@ -102,30 +101,39 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={() => navigate("/pizza")}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{ my: 2, color: "white", display: "block", fontWeight: 600 }}
             >
               Home
             </Button>
             <Button
-              onClick={() => navigate("/pizza/create")}
-              sx={{ my: 2, color: "white", display: "block" }}
+              onClick={() =>
+                user ? navigate("/pizza/create") : navigate("/auth")
+              }
+              sx={{ my: 2, color: "white", display: "block", fontWeight: 600 }}
             >
               Create Pizza
             </Button>
-            <Button
-              onClick={() => navigate("/pizza/orders")}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              {user.pageType === "user" ? "Orders" : "Track Orders"}
-            </Button>
+            {user && (
+              <Button
+                onClick={() => navigate("/pizza/orders")}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  fontWeight: 600,
+                }}
+              >
+                {user.pageType === "user" ? "Orders" : "Track Orders"}
+              </Button>
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {user && (
+            {user ? (
               <>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleClick} sx={{ p: 0 }}>
-                    <Avatar sx={{ bgcolor: deepOrange[500] }}>
+                    <Avatar sx={{ bgcolor: "#fff" }}>
                       {user.name[0].toUpperCase()}
                     </Avatar>
                   </IconButton>
@@ -166,6 +174,14 @@ function ResponsiveAppBar() {
                   </List>
                 </Menu>
               </>
+            ) : (
+              <Button
+                variant="outlined"
+                onClick={() => navigate("/auth")}
+                sx={{ color: "white", textTransform: "none" }}
+              >
+                Login/Register
+              </Button>
             )}
           </Box>
         </Toolbar>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Alert,
   Button,
   Card,
   CardMedia,
@@ -42,8 +43,11 @@ const loginValidationSchema = yup.object({
   email: yup.string().email("Invalid email!").required("Email is Required!"),
   password: yup
     .string()
-    .min(8, "Your password must contain at least 8 characters!")
-    .required("Password is Required!"),
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+      "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character!"
+    )
+    .required("Password is required!"),
 });
 
 const registerInitialValues = {
@@ -91,7 +95,6 @@ export const AuthForm = ({ isLogin, setIsLogin, handleSubmit, loading }) => {
     <Card
       component="form"
       onSubmit={formik.handleSubmit}
-      noValidate={formik.validateForm}
       sx={{
         width: isPhone ? 300 : 380,
         justifySelf: "center",
@@ -110,6 +113,15 @@ export const AuthForm = ({ isLogin, setIsLogin, handleSubmit, loading }) => {
           p: isPhone ? 3 : 4,
         }}
       >
+        {isLogin && (
+          <Alert severity="info">
+            For testing purposes, use the following credentials:{" "}
+            <strong>Email:</strong> user@gmail.com, <strong>Password:</strong>{" "}
+            User@123. To test the "Forgot Password" feature, please sign up
+            using a valid email address.
+          </Alert>
+        )}
+
         <Typography
           variant={isPhone ? "h6" : "h5"}
           component="h1"

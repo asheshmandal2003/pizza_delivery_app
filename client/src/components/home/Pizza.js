@@ -6,16 +6,28 @@ import {
   CardHeader,
   CardMedia,
   Divider,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 
-function Pizza({ name, price, description, image }) {
+function Pizza({ name, price, description, image, isMobile }) {
   const [disable, setDisable] = useState(() => false);
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
+  const [loadImg, setLoadImg] = useState(() => true);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = image;
+    img.onload = () => {
+      setLoadImg(false);
+    };
+  }, [image]);
+
   const buy = async (amount, name) => {
     try {
       setDisable(true);
@@ -76,17 +88,25 @@ function Pizza({ name, price, description, image }) {
           overflow: "hidden",
         }}
       >
-        <CardMedia
-          component="img"
-          height={200}
-          image={image}
-          alt={name}
-          loading="lazy"
-          sx={{
-            transition: "0.2s ease-out",
-            "&:hover": { scale: "110%" },
-          }}
-        />
+        {loadImg ? (
+          <Skeleton
+            sx={{ height: 200 }}
+            animation="wave"
+            variant="rectangular"
+          />
+        ) : (
+          <CardMedia
+            component="img"
+            height={200}
+            image={image}
+            alt={name}
+            loading="lazy"
+            sx={{
+              transition: "0.2s ease-out",
+              "&:hover": { scale: "110%" },
+            }}
+          />
+        )}
       </div>
       <CardHeader title={name} subheader={`₹${price}`} />
       <Divider />
@@ -96,22 +116,30 @@ function Pizza({ name, price, description, image }) {
         </Typography>
       </CardContent>
       <Divider />
-      <CardActions>
-        {user.pageType === "user" && (
-          <Button
-            fullWidth
-            disabled={disable}
-            onClick={() => buy(price, name)}
-            variant="contained"
-            color="error"
-            sx={{
-              mt: "auto",
-            }}
-          >
-            Order Now
-          </Button>
-        )}
-      </CardActions>
+      {user && (
+        <CardActions>
+          {user.pageType === "user" && (
+            <Button
+              fullWidth
+              disabled={disable}
+              onClick={() => buy(price, name)}
+              variant="contained"
+              color="error"
+              size={isMobile ? "small" : "medium"}
+              startIcon={
+                <ShoppingCartRoundedIcon
+                  fontSize={isMobile ? "small" : "medium"}
+                />
+              }
+              sx={{
+                mt: "auto",
+              }}
+            >
+              Order Now
+            </Button>
+          )}
+        </CardActions>
+      )}
     </Card>
   );
 }

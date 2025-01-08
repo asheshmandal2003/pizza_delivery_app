@@ -1,12 +1,10 @@
 import { Box, useMediaQuery } from "@mui/material";
 import Form from "./Form";
-import ResponsiveAppBar from "../partials/Navbar.js";
 
 function CreatePizza() {
-  const phone = useMediaQuery("(max-width:600px)");
+  const phone = useMediaQuery("(max-width:742px)");
   return (
     <>
-      <ResponsiveAppBar />
       <Box
         sx={{
           width: "100%",

@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import pizzas from "./pizzas.js";
 import authRoute from "./routes/auth.js";
 import userRoute from "./routes/user.js";
 import forgotPassRoute from "./routes/forgotPassword.js";
@@ -33,7 +32,6 @@ app.use("/pizza/users", pizzaRoute);
 app.use("/pizza", dashboardRoute);
 app.use("/pizza/users", paymentRoute);
 app.use("/pizza", ordersRoute);
-app.get("/pizzas", verifyToken, pizzas);
 
 function startServer() {
   try {

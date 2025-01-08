@@ -9,11 +9,35 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
+  createTransform,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-const persistConfig = { key: "auth", storage };
+const ONE_HOUR = 60 * 60 * 1000;
+
+const expireTransform = createTransform(
+  (inboundState) => {
+    return { ...inboundState, _persistedAt: Date.now() };
+  },
+  (outboundState) => {
+    const { _persistedAt, ...state } = outboundState;
+    if (Date.now() - _persistedAt > ONE_HOUR) {
+      console.warn("Persisted state expired");
+      return undefined;
+    }
+    return state;
+  },
+  { whitelist: ["auth"] }
+);
+
+const persistConfig = {
+  key: "auth",
+  storage,
+  transforms: [expireTransform],
+};
+
 const persist_reducer = persistReducer(persistConfig, authReducer);
+
 export const store = configureStore({
   reducer: persist_reducer,
   middleware: (getDefaultMiddleware) =>
@@ -23,4 +47,5 @@ export const store = configureStore({
       },
     }),
 });
+
 export const persistor = persistStore(store);

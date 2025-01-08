@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ResponsiveAppBar from "../partials/Navbar";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import DashboardForm from "./DashboardForm";
@@ -62,7 +61,6 @@ function Dashboard() {
 
   return (
     <>
-      <ResponsiveAppBar />
       {dashboard.length === 0 ? (
         <DashboardLoading />
       ) : (

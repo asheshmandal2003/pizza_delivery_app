@@ -1,5 +1,4 @@
 import {
-  Alert,
   Avatar,
   Box,
   Card,
@@ -13,7 +12,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import ResponsiveAppBar from "../partials/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -56,7 +54,6 @@ function Profile() {
   };
   return (
     <>
-      <ResponsiveAppBar />
       <Box
         sx={{
           width: "100%",
