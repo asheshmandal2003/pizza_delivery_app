@@ -1,62 +1,83 @@
-import Homepage from "./components/home/Homepage";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Signup from "./components/auth/Signup";
-import Signin from "./components/auth/Signin";
+import Homepage from "./components/home/Homepage";
 import VerifyEmail from "./components/verification/VerifyEmail";
 import Email from "./components/forgotPassword/Email";
-import Otp from "./components/forgotPassword/Otp";
 import ResetPassword from "./components/forgotPassword/ResetPassword";
 import CreatePizza from "./components/createPizza/CreatePizza";
 import Dashboard from "./components/dashboard/Dashboard";
-import Orders from "./components/orders/Orders.js";
-import Profile from "./components/profile/Profile.js";
+import Orders from "./components/orders/Orders";
+import Profile from "./components/profile/Profile";
 import Blank from "./components/verification/Blank";
 import NotFound from "./components/Error/NotFound";
+import { NotificationProvider } from "./context/NotificationProvider";
+import Auth from "./pages/Auth";
+
+const ProtectedRoute = ({ isAuth, children }) => {
+  return isAuth ? children : <Navigate to="/auth" />;
+};
 
 function App() {
   const isAuth = Boolean(useSelector((state) => state.user));
 
   return (
-    <div className="App">
+    <NotificationProvider>
       <Routes>
-        <Route path="/auth/signup" element={<Signup />} />
-        <Route path="/:id" element={<Blank />} />
         <Route
-          path="/auth/signin"
-          element={!isAuth ? <Signin /> : <Navigate to="/pizza" />}
+          path="/"
+          element={<Navigate to={isAuth ? "/pizza" : "/auth"} />}
         />
-        <Route path="/auth/:id/verify/:token" element={<VerifyEmail />} />
-        <Route path="/forgot-password" element={<Email />} />
-        <Route path="/forgot-password/users/:id" element={<Otp />} />
         <Route
-          path="/forgot-password/users/:id/reset-password"
-          element={<ResetPassword />}
+          path="/auth"
+          element={!isAuth ? <Auth /> : <Navigate to="/pizza" />}
         />
-        <Route path="/" element={<Navigate to="/auth/signin" />} />
+        <Route path="/auth/blank" element={<Blank />} />
+        <Route path="/auth/users/:id/verify/:token" element={<VerifyEmail />} />
+        <Route path="/auth/email" element={<Email />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route
           path="/pizza"
-          element={isAuth ? <Homepage /> : <Navigate to="/auth/signin" />}
+          element={
+            <ProtectedRoute isAuth={isAuth}>
+              <Homepage />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/pizza/create"
-          element={isAuth ? <CreatePizza /> : <Navigate to="/auth/signin" />}
+          element={
+            <ProtectedRoute isAuth={isAuth}>
+              <CreatePizza />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/pizza/dashboard"
-          element={isAuth ? <Dashboard /> : <Navigate to="/auth/signin" />}
+          element={
+            <ProtectedRoute isAuth={isAuth}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/pizza/orders"
-          element={isAuth ? <Orders /> : <Navigate to="/auth/signin" />}
+          element={
+            <ProtectedRoute isAuth={isAuth}>
+              <Orders />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/pizza/user"
-          element={isAuth ? <Profile /> : <Navigate to="/auth/signin" />}
+          element={
+            <ProtectedRoute isAuth={isAuth}>
+              <Profile />
+            </ProtectedRoute>
+          }
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </div>
+    </NotificationProvider>
   );
 }
 

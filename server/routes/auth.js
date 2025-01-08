@@ -1,4 +1,3 @@
-import passport from "passport";
 import {
   emailVerification,
   logout,
@@ -12,7 +11,7 @@ import { verifyToken } from "../middleware/auth.js";
 const router = express.Router();
 
 router.post("/signup", signup);
-router.post("/signin", passport.authenticate("local"), signin);
+router.post("/signin", signin);
 router.get("/logout", verifyToken, logout);
 router.get("/users/:id/verify/:token", emailVerification);
 router.post("/resend/:id", resendEmail);

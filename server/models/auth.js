@@ -1,12 +1,22 @@
 import mongoose from "mongoose";
-import passportLocalMongoose from "passport-local-mongoose";
+import bcrypt from "bcrypt";
 
 const { Schema } = mongoose;
 
 const authSchema = new Schema({
-  name: String,
-  email: String,
-  password: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
   verified: {
     type: Boolean,
     default: false,
@@ -14,6 +24,7 @@ const authSchema = new Schema({
   pageType: {
     type: String,
     enum: ["user", "admin"],
+    default: "user",
   },
   location: String,
   orders: [
@@ -30,7 +41,31 @@ const authSchema = new Schema({
   ],
 });
 
-authSchema.plugin(passportLocalMongoose, { usernameField: "email" });
+authSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+authSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+// authSchema.statics.hashExistingPasswords = async function () {
+//   const users = await this.find({});
+//   for (const user of users) {
+//     if (!user.password.startsWith("$2b$")) {
+//       const salt = await bcrypt.genSalt(10);
+//       user.password = await bcrypt.hash(user.password, salt);
+//       await user.save();
+//     }
+//   }
+// };
 
 const Auth = mongoose.model("Auth", authSchema);
 export default Auth;

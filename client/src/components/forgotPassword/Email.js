@@ -12,12 +12,13 @@ import {
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNotification } from "../../context/NotificationProvider";
 
 function Email() {
   const [disable, setDisable] = useState(() => false);
-  const phone = useMediaQuery("(max-width:500px)");
-  const navigate = useNavigate();
+  const phone = useMediaQuery("(max-width:742px)");
+  const notify = useNotification();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -42,9 +43,11 @@ function Email() {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => navigate(`/forgot-password/users/${res.data._id}`))
-      .catch((err) => console.log(err.response));
-    setDisable(true);
+      .then((res) => {
+        notify(res.data.message, "success");
+      })
+      .catch((err) => notify(err.response.data.message, "error"))
+      .finally(() => setDisable(false));
   }
   return (
     <Box

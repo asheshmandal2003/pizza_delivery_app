@@ -14,14 +14,22 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useNotification } from "../../context/NotificationProvider";
 
 function ResetPassword() {
-  const params = useParams();
-  const phone = useMediaQuery("(max-width:600px)");
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const token = params.get("token");
+  if (!token) {
+    navigate("/auth");
+  }
+  const phone = useMediaQuery("(max-width:600px)");
   const [visibility, setVisibility] = useState(() => false);
   const [disable, setDisable] = useState(() => false);
+  const notify = useNotification();
+
   const handleVisibility = () => {
     setVisibility(!visibility);
   };
@@ -45,6 +53,7 @@ function ResetPassword() {
   async function resetPassword(values) {
     setDisable(true);
     const formdata = new FormData();
+    formdata.append("token", token);
     formdata.append("confirmPassword", values["confirmPassword"]);
     await axios({
       method: "post",
@@ -54,9 +63,12 @@ function ResetPassword() {
         "Content-Type": "application/json",
       },
     })
-      .then(() => navigate("/auth/signin"))
-      .catch((err) => console.log(err.response));
-    setDisable(false);
+      .then((res) => {
+        notify(res.data.message, "success");
+        navigate("/auth");
+      })
+      .catch((err) => notify(err.response.data.message, "error"))
+      .finally(() => setDisable(false));
   }
   return (
     <Box
