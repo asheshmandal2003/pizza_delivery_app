@@ -97,7 +97,6 @@ export const AuthForm = ({ isLogin, setIsLogin, handleSubmit, loading }) => {
       onSubmit={formik.handleSubmit}
       sx={{
         width: isPhone ? 300 : 380,
-        justifySelf: "center",
         my: isPhone ? 4 : 8,
       }}
     >
@@ -114,7 +113,15 @@ export const AuthForm = ({ isLogin, setIsLogin, handleSubmit, loading }) => {
         }}
       >
         {isLogin && (
-          <Alert severity="info">
+          <Alert
+            severity="info"
+            sx={{
+              textAlign: "justify",
+              maxWidth: 600,
+              margin: "0 auto",
+              lineHeight: 1.5,
+            }}
+          >
             For testing purposes, use the following credentials:{" "}
             <strong>Email:</strong> user@gmail.com, <strong>Password:</strong>{" "}
             User@123. To test the "Forgot Password" feature, please sign up

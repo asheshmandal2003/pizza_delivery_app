@@ -17,7 +17,9 @@ import {
   List,
   ListItem,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
+  useMediaQuery,
 } from "@mui/material";
 import { AccountCircle, Logout } from "@mui/icons-material";
 import DrawerMenu from "./DrawerMenu.js";
@@ -25,6 +27,7 @@ import DrawerMenu from "./DrawerMenu.js";
 function ResponsiveAppBar() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery("(max-width:742px)");
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -71,18 +74,22 @@ function ResponsiveAppBar() {
             PIZZA
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none", fontSize: 18 },
+            }}
+          >
             <DrawerMenu user={user} />
           </Box>
           <Box
             component="img"
             src="/images/pizza.svg"
-            height={40}
-            width={40}
+            height={30}
+            width={30}
             sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
           />
           <Typography
-            variant="h5"
             noWrap
             onClick={() => navigate("/pizza")}
             sx={{
@@ -90,7 +97,7 @@ function ResponsiveAppBar() {
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
               fontFamily: "monospace",
-              fontWeight: 700,
+              fontWeight: 600,
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
@@ -133,13 +140,18 @@ function ResponsiveAppBar() {
               <>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleClick} sx={{ p: 0 }}>
-                    <Avatar sx={{ bgcolor: "#fff" }}>
+                    <Avatar
+                      sx={{
+                        bgcolor: "#fff",
+                        width: isMobile ? 30 : 40,
+                        height: isMobile ? 30 : 40,
+                      }}
+                    >
                       {user.name[0].toUpperCase()}
                     </Avatar>
                   </IconButton>
                 </Tooltip>
                 <Menu
-                  id="basic-menu"
                   anchorEl={anchorEl}
                   open={open}
                   onClose={handleClose}
@@ -147,28 +159,36 @@ function ResponsiveAppBar() {
                     "aria-labelledby": "basic-button",
                   }}
                 >
-                  <List disablePadding sx={{ width: 200 }}>
+                  <List disablePadding sx={{ width: isMobile ? 160 : 200 }}>
                     <ListItem disablePadding>
                       <ListItemButton
                         onClick={() => {
                           navigate("/pizza/user");
                         }}
                       >
-                        <Avatar>
-                          <AccountCircle />
-                        </Avatar>
-                        <ListItemText primary="Profile" sx={{ ml: 1 }} />
+                        <ListItemIcon sx={{ minWidth: 32 }}>
+                          <AccountCircle
+                            fontSize={isMobile ? "small" : "medium"}
+                          />
+                        </ListItemIcon>
+                        <ListItemText primary="Profile" />
                       </ListItemButton>
                     </ListItem>
                     <Divider />
                     <ListItem disablePadding>
                       <ListItemButton onClick={signout}>
-                        <Avatar>
-                          <Logout />
-                        </Avatar>
-                        <Typography color="error" sx={{ ml: 1 }}>
-                          Log out
-                        </Typography>
+                        <ListItemIcon sx={{ minWidth: 32 }}>
+                          <Logout
+                            fontSize={isMobile ? "small" : "medium"}
+                            sx={{ color: "red" }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Logout"
+                          sx={{
+                            color: "red",
+                          }}
+                        />
                       </ListItemButton>
                     </ListItem>
                   </List>
@@ -178,6 +198,7 @@ function ResponsiveAppBar() {
               <Button
                 variant="outlined"
                 onClick={() => navigate("/auth")}
+                size={isMobile ? "small" : "medium"}
                 sx={{ color: "white", textTransform: "none" }}
               >
                 Login/Register

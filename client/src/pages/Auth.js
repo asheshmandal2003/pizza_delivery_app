@@ -50,11 +50,20 @@ export default function Auth() {
       });
   };
   return (
-    <AuthForm
-      isLogin={isLogin}
-      setIsLogin={setIsLogin}
-      handleSubmit={isLogin ? signIn : signUp}
-      loading={loading}
-    />
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <AuthForm
+        isLogin={isLogin}
+        setIsLogin={setIsLogin}
+        handleSubmit={isLogin ? signIn : signUp}
+        loading={loading}
+      />
+    </div>
   );
 }

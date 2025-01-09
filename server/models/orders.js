@@ -7,16 +7,16 @@ const orderSchema = new Schema({
   order_email: String,
   order_id: String,
   order_time: Date,
+  order_location: String,
   status: {
     type: String,
     enum: [
-      "Order not placed",
       "Order placed",
       "Order outs for delivery",
       "Order delivered",
       "Order cancelled",
     ],
-    default: "Order not placed",
+    default: "Order placed",
   },
 });
 

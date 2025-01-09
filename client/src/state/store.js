@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./auth.js";
+import authReducer, { logout } from "./auth.js";
 import {
   persistStore,
   persistReducer,
@@ -38,6 +38,21 @@ const persistConfig = {
 
 const persist_reducer = persistReducer(persistConfig, authReducer);
 
+const expirationMiddleware = (storeAPI) => (next) => (action) => {
+  const result = next(action);
+
+  const state = storeAPI.getState();
+  if (state.auth && state.auth._persistedAt) {
+    const isExpired = Date.now() - state.auth._persistedAt > ONE_HOUR;
+    if (isExpired) {
+      console.warn("Auth state expired. Logging out user.");
+      storeAPI.dispatch(logout());
+    }
+  }
+
+  return result;
+};
+
 export const store = configureStore({
   reducer: persist_reducer,
   middleware: (getDefaultMiddleware) =>
@@ -45,7 +60,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(expirationMiddleware),
 });
 
 export const persistor = persistStore(store);

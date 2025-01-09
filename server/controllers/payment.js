@@ -14,7 +14,7 @@ export const checkout = async (req, res) => {
       amount: req.body.price * 100,
       currency: "INR",
     };
-    await instance.orders.create(options, async function (err, order) {
+    instance.orders.create(options, async function (err, order) {
       if (err) return err;
       res.status(201).json(order);
     });
@@ -35,6 +35,7 @@ export const paymentVerification = async (req, res) => {
       order_email: user.email,
       order_id: req.params.orderId,
       order_time: Date.now(),
+      order_location: user.location,
     });
     dashboard[0].pizzaBase -= 1;
     dashboard[0].sauce -= 1;
@@ -55,14 +56,14 @@ export const paymentVerification = async (req, res) => {
         "Current stock has less than 20 ingredients!"
       );
     }
-    user.orders.unshift(newOrder._id);
-    admin.orders.unshift(newOrder._id);
+    user.orders.push(newOrder._id);
+    admin.orders.push(newOrder._id);
     await newOrder.save();
     await user.save();
     await admin.save();
     dashboard[0].save();
     res.status(201).redirect(`${process.env.FRONTEND_URL}/pizza/orders`);
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error!" });
+    res.status(500).json({ message: "Something went wrong!" });
   }
 };
