@@ -22,8 +22,6 @@ Welcome to the Pizza Delivery Application 🍕! This web application allows user
 - [Usage](#usage)
 - [Features](#features)
 - [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Prerequisites
 
